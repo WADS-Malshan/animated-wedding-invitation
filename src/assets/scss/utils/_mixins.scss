@@ -1,0 +1,205 @@
+@use "./functions" as *;
+@use "../config" as *;
+
+$mobile-base-width: 375px;
+$mobile-landscape-width: 414px;
+$mobile-landscape-end-width: 812px;
+$tablet-portrait-width: 768px;
+$tablet-landscape-width: 992px;
+$desktop-small-width: 1024px;
+$desktop-width: 1200px;
+$desktop-wide-width: 1440px;
+$desktop-large-width: 1600px;
+$desktop-extra-large-width: 1920px;
+$desktop-double-extra-large-width: 1921px;
+
+// Media query mixins - Small mobile only
+@mixin mobile-sm {
+  @media (max-width: #{$mobile-base-width - 0.02px}) {
+    @content;
+  }
+}
+
+// Media query mixins - Mobile Landscape - 414px to up
+@mixin mobile-landscape {
+  @media (min-width: #{$mobile-landscape-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - Mobile Landscape - 414px to up
+@mixin mobile-portrait-only {
+  @media (max-width: #{$mobile-landscape-width}) {
+    @content;
+  }
+}
+
+// Mobile landscape only
+@mixin mobile-landscape-only {
+  @media only screen 
+    and (min-width: #{$mobile-landscape-width}) 
+    and (max-width: #{$mobile-landscape-end-width}) 
+    and (orientation: landscape) {
+    @content;
+  }
+}
+
+// Media query mixins - Tablet Portrait - 768px to up
+@mixin tablet-portrait {
+  @media (min-width: #{$tablet-portrait-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - Tablet Landscape - 992px to up
+@mixin tablet-landscape {
+  @media (min-width: #{$tablet-landscape-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - Small Desktop - 1024px to up
+@mixin small-desktop {
+  @media (min-width: #{$desktop-small-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - Desktop - 1200px to up
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - Wide Desktop - 1440px to up
+@mixin wide-desktop {
+  @media (min-width: #{$desktop-wide-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - Wide Desktop - 1600px to up
+@mixin large-desktop {
+  @media (min-width: #{$desktop-large-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - extra Wide Desktop - 1920px to up
+@mixin extra-large-desktop {
+  @media (min-width: #{$desktop-extra-large-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - extra Wide Desktop - 1921px to up
+@mixin double-extra-large-desktop {
+  @media (min-width: #{$desktop-double-extra-large-width}) {
+    @content;
+  }
+}
+
+// Media query mixins - Mobile Only - less than or equal to 767px
+@mixin mobile-only {
+  @media (max-width: #{$tablet-portrait-width - 0.02px}) {
+    @content;
+  }
+}
+
+// Media query mixins - Mobile/Tablet portrait Only - less than or equal to 991px
+@mixin mobile-tablet-portrait-only {
+  @media (max-width: #{$tablet-landscape-width - 0.02px}) {
+    @content;
+  }
+}
+
+// Media query mixins - Tablet Only (between 768px - 1200px)
+@mixin tablet-only {
+  @media (min-width: #{$tablet-portrait-width}) and (max-width: #{$desktop-width - 0.02px}) {
+    @content;
+  }
+}
+
+// Media query mixins - Tablet portrait Only (between 768px - 991px)
+@mixin tablet-portrait-only {
+  @media (min-width: #{$tablet-portrait-width}) and (max-width: #{$tablet-landscape-width - 0.02px}) {
+    @content;
+  }
+}
+
+// Media query mixins - Tablet Only (between 992px - 1199px)
+@mixin tablet-landscape-only {
+  @media (min-width: #{$tablet-landscape-width}) and (max-width: #{$desktop-width - 0.02px}) {
+    @content;
+  }
+}
+
+// Truncate
+@mixin truncate($truncation-lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $truncation-lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Text styles
+@mixin textStyle($fontfamily, $size, $lineheight, $letter_spacing, $color) {
+  line-height: pxToRem($lineheight);
+  font-family: $fontfamily;
+  font-size: pxToRem($size);
+  letter-spacing: $letter_spacing;
+  color: $color;
+}
+
+// Reset Links
+@mixin reset-link {
+  margin: 0px;
+  text-decoration: none;
+}
+
+// Reset list styles
+@mixin reset-list {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+// Reset Buttons
+@mixin reset-button {
+  background: none;
+  border-radius: 0px;
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+}
+
+// Manual inset
+@mixin inset {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+// Background Image Cover Center
+@mixin bg-cover-center {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+// Background Image Contain Center
+@mixin bg-contain-center {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+// Hover style for except the touch device
+@mixin hover-device {
+  @media (hover: hover) {
+    @content;
+  }
+}

@@ -1,0 +1,262 @@
+@use "../utils/mixins" as *;
+@use "../config" as *;
+@use "../utils/functions" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  outline: 0px;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  margin: 0;
+}
+
+.heading-1 {
+  @include textStyle($primary-font-family, 28px, 32px, 0, $font-light-color);
+  color-scheme: light !important;
+  @include tablet-landscape {
+    font-size: pxToRem(32px);
+    line-height: pxToRem(40px);
+  }
+}
+
+.heading-2 {
+  @include textStyle(
+    $primary-font-family,
+    24px,
+    26px,
+    -0.5px,
+    $font-light-color
+  );
+  color-scheme: light !important;
+  @include tablet-landscape {
+    font-size: pxToRem(28px);
+    line-height: pxToRem(36px);
+  }
+}
+
+.heading-3 {
+  @include textStyle(
+    $primary-font-family,
+    20px,
+    28px,
+    -0.5px,
+    $font-light-color
+  );
+  color-scheme: light !important;
+  @include tablet-landscape {
+    font-size: pxToRem(24px);
+    line-height: pxToRem(32px);
+  }
+}
+
+.heading-4 {
+  @include textStyle($primary-font-family, 18px, 24px, 0, $font-light-color);
+  color-scheme: light !important;
+  @include tablet-landscape {
+    font-size: pxToRem(20px);
+    line-height: pxToRem(28px);
+  }
+}
+
+.heading-5 {
+  @include textStyle($primary-font-family, 16px, 24px, 0, $font-light-color);
+  color-scheme: light !important;
+  @include tablet-landscape {
+    font-size: pxToRem(18px);
+    line-height: pxToRem(24px);
+  }
+}
+
+.heading-6 {
+  @include textStyle($primary-font-family, 14px, 20px, 0, $font-light-color);
+  color-scheme: light !important;
+  @include tablet-landscape {
+    font-size: pxToRem(16px);
+    line-height: pxToRem(24px);
+  }
+}
+
+// Button
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+  text-decoration: none;
+  border-radius: 50px;
+  padding: 0 !important;
+  background: transparent;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  @include textStyle($primary-font-family, 13px, 13px, 0, #000000);
+  transition: all 0.3s ease;
+  &.primary {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1c1f22 0%, #0a2a5e 100%);
+    color: #ffffff;
+    padding: 18px 30px !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25),
+      0 1px 2px rgba(255, 255, 255, 0.1) inset;
+    transition: all 0.35s ease;
+    z-index: 1;
+
+    // shine beam
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -60%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.35) 50%,
+        transparent 100%
+      );
+      transform: skew(-20deg);
+      transition: all 0.5s ease;
+      z-index: 2;
+    }
+
+    // hover animation (shine + brightness + slight lift)
+    &:hover {
+      background: linear-gradient(135deg, #0a2a5e 0%, #1c1f22 100%);
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), 0 0 12px rgba(10, 42, 94, 0.4);
+    }
+
+    // shine movement on hover
+    &:hover::before {
+      left: 120%;
+    }
+
+    // click effect
+    &:active {
+      transform: scale(0.97);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25), 0 0 4px rgba(10, 42, 94, 0.2);
+    }
+
+    // text stays above shine
+    span {
+      position: relative;
+      z-index: 3;
+    }
+  }
+  &.secondary {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px 30px !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    &:hover {
+      background-color: #1e2834;
+      color: #ffffff;
+    }
+  }
+  &.tetnary {
+    background-color: none;
+    color: #ffffff;
+    padding: 15px 30px !important;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+// Body text
+.body-text {
+  @include textStyle($primary-font-family, 13px, 16px, 0, #000000);
+  color-scheme: light !important;
+  @include tablet-landscape {
+    font-size: pxToRem(15px);
+    line-height: pxToRem(20px);
+  }
+  &.dark {
+    color: $font-dark-color;
+  }
+}
+
+/* Visually hide text for SEO and Screen Readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Content-width
+.content-width {
+  margin: 0px 10px;
+  max-width: 94.667vw;
+  /* Ensure content area maintains light scheme */
+  color-scheme: light !important;
+  @include tablet-landscape {
+    margin: 0px auto;
+    max-width: 90vw;
+    width: 100%;
+  }
+  @include wide-desktop {
+    max-width: 1230px;
+  }
+}
+
+// Default scrollbar styles
+::-webkit-scrollbar {
+  @include tablet-landscape {
+    height: 4px;
+    width: 4px;
+    background-color: #ffffff;
+    border-radius: 50px;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  @include tablet-landscape {
+    -webkit-border-radius: 50px;
+    -webkit-box-shadow: 0px 1px 2px #5897c2;
+    border-radius: 50px;
+    background-color: #5897c2;
+    cursor: pointer;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  @include tablet-landscape {
+    background-color: #5897c2;
+  }
+}

@@ -1,0 +1,154 @@
+@use "../../utils/mixins" as *;
+@use "../../utils/functions" as *;
+@use "../../config" as *;
+
+.invitationContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f7ede2;
+
+  /* ========================================= */
+  /* SHARED CORNER FLOWERS */
+  /* ========================================= */
+  .sharedCorners {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+
+    .cornerFlower {
+      position: absolute;
+      img { width: 100%; height: auto; }
+      &.corner1 { top: 0; left: 0; width: 45%; transform-origin: top left; animation: flowerZoom1 5s ease-in-out infinite alternate; }
+      &.corner2 { bottom: -4px; left: 0; width: 45%; transform-origin: bottom left; animation: flowerZoom2 6s ease-in-out infinite alternate; }
+      &.corner3 { top: 0; right: 0; width: 45%; transform-origin: top right; animation: flowerZoom1 5.5s ease-in-out infinite alternate-reverse; }
+      &.corner4 { bottom: -4px; right: 0; width: 45%; transform-origin: bottom right; animation: flowerZoom2 6.5s ease-in-out infinite alternate-reverse; }
+    }
+  }
+
+  /* ========================================= */
+  /* MAGICAL FLOWER */
+  /* ========================================= */
+  .magicFlower {
+    position: absolute;
+    z-index: 300; 
+    /* Initial Size */
+    width: 40px;
+    height: 40px;
+    top: calc(50% - 35px); 
+    left: calc(50% + 35px);
+    transform: translate(-50%, -50%) rotate(15deg);
+    transition: top 2.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                left 2.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 2.2s ease-in-out,
+                filter 2.2s ease;
+    pointer-events: none;
+    will-change: width, height, opacity; /* Browser ge inform madi advance rendering ge */
+
+    img {
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+    }
+
+    &.flyToEar {
+      top: 47.5%; 
+      left: 49.2%;    
+      transform: translate(-50%, -50%) rotate(350deg);
+      
+      img {
+        /* Couple jote breathe maduvudu */
+        animation: flowerSyncBreathing 4s ease-in-out infinite alternate 2.2s;
+        /* Scroll zoom aaguvaaga flower ge drop shadow effect */
+        filter: drop-shadow(0 0 15px rgba(255, 240, 180, 0.85));
+      }
+    }
+  }
+
+  /* ========================================= */
+  /* SCREEN TWO */
+  /* ========================================= */
+  .screenTwoContent {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    will-change: opacity;
+
+    .bg1 { position: absolute; inset: 0; width: 100%; height: 100%; img { width: 100%; height: 100%; object-fit: cover; } }
+    .textBack { position: absolute; top: 8%; left: 50%; transform: translateX(-50%); width: 90%; max-width: 450px; z-index: 2; opacity: 0.9; img { width: 100%; height: auto; } }
+    
+    .coupleLayer { 
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 3; width: auto; height: 60%; transform-origin: bottom center; 
+      animation: coupleBreathing 4s ease-in-out infinite alternate; 
+      img { height: 100%; width: auto; object-fit: contain; } 
+    }
+    
+    .textWrapper {
+      position: absolute; top: 12%; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; text-align: center; 
+      z-index: 200; 
+      color: #3d2314;
+      
+      .smoothLetter { opacity: 0; display: inline-block; transform: translateY(8px); filter: blur(4px); animation: premiumLetterFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      .subTitleTop { font-family: 'Georgia', serif; font-size: 0.85rem; letter-spacing: 2px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; min-height: 1.2rem; }
+      .mainTitle { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #6e2c16; margin: 5px 0; font-weight: normal; min-height: 3.2rem; }
+      .subTitleBottom { font-family: 'Georgia', serif; font-size: 0.8rem; letter-spacing: 1.5px; font-weight: 600; margin-top: 8px; text-transform: uppercase; min-height: 1.2rem; }
+    }
+  }
+
+  /* ========================================= */
+  /* SCREEN THREE */
+  /* ========================================= */
+  .screenThreeContent {
+    position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+    pointer-events: none;
+    will-change: opacity;
+    
+    &.active { pointer-events: auto; z-index: 3; }
+
+    .bg3 { position: absolute; inset: 0; img { width: 100%; height: 100%; object-fit: cover; } }
+    .textBack3 { position: absolute; top: 8%; left: 50%; transform: translateX(-50%); width: 90%; max-width: 450px; opacity: 0.85; z-index: 2; img { width: 100%; } }
+    
+    .dancingCoupleLayer {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      height: 60%; z-index: 3; animation: coupleDancing 5s ease-in-out infinite alternate;
+      img { height: 100%; object-fit: contain; }
+    }
+
+    .screenThreeText {
+      position: absolute; top: 12%; left: 50%; transform: translateX(-50%); text-align: center; 
+      z-index: 200; 
+      color: #4a2e0b; width: 90%;
+      
+      .scriptTitle { font-family: 'Great Vibes', cursive; font-size: 3rem; margin: 10px 0; color: #8e3a20; font-weight: normal; }
+      .subTitleTop { font-family: 'Georgia', serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; margin: 0; }
+    }
+  }
+
+  /* ========================================= */
+  /* SCREEN ONE (ENVELOPE) */
+  /* ========================================= */
+  .screenOneOverlay {
+    position: absolute; inset: 0; z-index: 50; pointer-events: none;
+    .firstBg { position: absolute; inset: 0; background: radial-gradient(circle, rgba(234, 222, 207, 1) 0%, rgba(181, 159, 136, 1) 100%); z-index: 51; transition: opacity 1.2s ease-in-out; &.fadeOut { opacity: 0; } }
+    .flowerLeft, .flowerRight { position: absolute; top: 0; height: 100%; width: 50%; z-index: 55; transition: transform 1.8s cubic-bezier(0.65, 0, 0.35, 1); display: flex; align-items: center; pointer-events: auto; img { height: 100%; object-fit: cover; } }
+    .flowerLeft { left: 0; justify-content: flex-start; transform: translateX(0); } .flowerRight { right: 0; justify-content: flex-end; transform: translateX(0); }
+    .openLeft { transform: translateX(-180%); } .openRight { transform: translateX(180%); }
+    .buttonContainer { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 60; transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out; display: flex; pointer-events: auto; &.hideButton { opacity: 0; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; } }
+    .envelopeButton { position: relative; width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #f9e596 0%, #d4af37 40%, #8b5a19 90%, #4a2e0b 100%); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.6), inset 0 0 30px rgba(139, 90, 25, 0.8), 0 15px 35px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(212, 175, 55, 0.5); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden; &::before { content: ''; position: absolute; inset: 6px; border-radius: 50%; border: 1.5px dashed rgba(100, 50, 0, 0.3); z-index: 1; } .envelopeIcon { width: 38px; height: 38px; } }
+    .pulseRing { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #d4af37; z-index: 0; animation: pulse 2.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1); &.delay { animation-delay: 1.25s; } }
+  }
+}
+
+/* KEYFRAMES */
+@keyframes coupleBreathing { 0% { transform: translateX(-50%) scale(1); } 100% { transform: translateX(-50%) scale(1.02); } }
+@keyframes coupleDancing { 0% { transform: translateX(-50%) rotate(-1deg) scale(1); } 100% { transform: translateX(-50%) rotate(1deg) scale(1.02); } }
+@keyframes flowerZoom1 { 0% { transform: scale(1); } 100% { transform: scale(1.06); } }
+@keyframes flowerZoom2 { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
+@keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.7); opacity: 0; } }
+@keyframes premiumLetterFade { 0% { opacity: 0; transform: translateY(10px); filter: blur(4px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes flowerSyncBreathing { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-4px) scale(1.02); } }

@@ -1,0 +1,158 @@
+@use "../../utils/mixins" as *;
+@use "../../utils/functions" as *;
+@use "../../config" as *;
+
+.screenTwo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5; // ScreenOne ekata wada adu wenna oni
+  /* Background */
+.backgroundLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Typography Layer */
+.textWrapper {
+  position: relative;
+  z-index: 10;
+  margin-top: 5vh;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include tablet-landscape{
+    margin-top: 8vh;
+  }
+}
+
+.textGlow {
+  position: absolute;
+  width: 180%; // Glow eka wate spread wenna
+  max-width: 400px;
+  opacity: 0.8;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.textContent {
+  color: #5c2c16; // Design eke inna dark brown color eka
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.topSmallText, .bottomSmallText {
+  font-weight: 600;
+  margin: 0;
+  @include textStyle(
+    $primary-font-family,
+    13px,
+    16px,
+    0,
+    #252323
+  );
+}
+
+.scriptText {
+  font-family: $secondary-font-family; /* Oya use karana script font eka denna */
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #903c2a; // Eka poddak rathu/brown mix ekak
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Couple Image Layer */
+.coupleWrapper {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 60vh; // Couple ge height eka screen eke ratio eka anuwa
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  @include tablet-landscape {
+    bottom: 45px;
+  }
+}
+
+.coupleImg {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+/* Corner Flowers Layer */
+.cornerFlower {
+  position: absolute;
+  z-index: 4; // Couple ekata wada uda inna oni design eke widiyata
+  width: 45vw; // Mobile eke size eka
+  max-width: 250px;
+  pointer-events: none;
+  
+  @include tablet-landscape {
+    width: 20vw; // Desktop eke loku wadi wenna nathi wenna
+  }
+}
+
+.topLeft {
+  top: -5%;
+  left: -5%;
+  @include tablet-landscape {
+    top: 0;
+    left: 0;
+  }
+}
+
+.topRight {
+  top: -5%;
+  right: -5%;
+  @include tablet-landscape {
+    top: 0;
+    right: 0;
+  }
+}
+
+.bottomLeft {
+  bottom: -5%;
+  left: -5%;
+  @include tablet-landscape {
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.bottomRight {
+  bottom: -5%;
+  right: -5%;
+  @include tablet-landscape {
+    bottom: 0;
+    right: 0;
+  }
+}
+}
+
