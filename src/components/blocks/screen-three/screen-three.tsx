@@ -1,9 +1,37 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function ScreenThree() {
+  const containerRef = useRef(null);
+
+  useGSAP(() => {
+    // 1. Corner Flowers Swaying Animation (Mal hulangata hellenawa wage)
+    gsap.to('.cornerFlower', {
+      rotation: 5,       // Podi rotation ekak
+      y: -6,             // Udata pallahata yanawa
+      x: 2,              // Poddak paththata yanawa
+      duration: 3.2,     // Animation speed eka
+      repeat: -1,        // Digatama play wenna
+      yoyo: true,        // Apahu mulata enna
+      ease: 'sine.inOut',
+      stagger: 0.3       // Eka eka mala wenas welawal wala hellenna
+    });
+
+    // 2. Dancing Couple Breathing/Floating Effect
+    gsap.to('.coupleImg', {
+      y: -8,             // Poddak udata yanawa
+      scale: 1.01,       // Us gannawa wage podi scale ekak
+      duration: 4,       // Me screen eke dancing nisa poddak slow kara
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+  }, { scope: containerRef });
+
   return (
-    <section className="screenThree">
+    <section ref={containerRef} className="screenThree">
       
       {/* Background Image */}
       <picture className="backgroundLayer">

@@ -1,9 +1,36 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function ScreenSix() {
+  const containerRef = useRef(null);
+
+  useGSAP(() => {
+    // 1. Invitation Card Floating Effect (Card eka poddak udata pallahata yanawa)
+    gsap.to('.tableCard', {
+      y: -6,             // Poddak udata yanawa
+      scale: 1.02,       // Poddak loku wenawa
+      rotation: 1,       // Himiita podi angle ekakata harenawa
+      duration: 2.5,     // Speed eka
+      repeat: -1,        // Digatama play wenna
+      yoyo: true,        // Apahu mulata enna
+      ease: 'sine.inOut'
+    });
+
+    // 2. Text Glow Pulsing Effect (Pitipasse eliya wadi/adu wenawa magical feel ekakata)
+    gsap.to('.textGlow', {
+      opacity: 0.5,      // Eliya adu wenawa
+      scale: 1.05,       // Poddak spread wenawa
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+  }, { scope: containerRef });
+
   return (
-    <section className="screenSix">
+    <section ref={containerRef} className="screenSix">
       
       {/* Background Layer */}
       <picture className="backgroundLayer">

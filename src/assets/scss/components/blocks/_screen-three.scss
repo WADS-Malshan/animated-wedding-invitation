@@ -145,8 +145,8 @@
   top: -5%;
   left: -5%;
   @include tablet-landscape {
-    top: 0;
-    left: 0;
+    top: -2%;
+  left: -2%;
   }
 }
 
@@ -154,8 +154,8 @@
   top: -5%;
   right: -5%;
   @include tablet-landscape {
-    top: 0;
-    right: 0;
+    top: -1%;
+  right: -1%;
   }
 }
 
@@ -163,8 +163,8 @@
   bottom: -5%;
   left: -5%;
   @include tablet-landscape {
-    bottom: 0;
-    left: 0;
+    bottom: -1.5%;
+    left: -1.5%;
   }
 }
 
@@ -172,8 +172,8 @@
   bottom: -5%;
   right: -5%;
   @include tablet-landscape {
-    bottom: 0;
-    right: 0;
+    bottom: -1.5%;
+    right: -1.5%;
   }
 }
 }

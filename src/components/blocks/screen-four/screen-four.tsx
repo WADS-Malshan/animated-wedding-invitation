@@ -1,8 +1,29 @@
 'use client';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function ScreenFour() {
+  const containerRef = useRef(null);
+
+  useGSAP(() => {
+    // Hanging Lamps Premium Swing Animation
+    gsap.to('.lamp', {
+      rotation: 5,                   // Podi swing ekak (degrees)
+      transformOrigin: 'top center', // Udin ellila thiyena thanin hellenna
+      duration: 3,                   // Smooth and slow speed
+      repeat: -1,                    // Digatama play wenna
+      yoyo: true,                    // Apahu mulata enna
+      ease: 'sine.inOut',
+      stagger: {
+        each: 0.3,                   // Eka eka lamp eke delay eka
+        from: 'random'               // Random widiyata lamps hellenna patan ganna
+      }
+    });
+  }, { scope: containerRef });
+
   return (
-    <section className="screenFour">
+    <section ref={containerRef} className="screenFour">
       
       {/* Background Image */}
       <picture className="backgroundLayer">

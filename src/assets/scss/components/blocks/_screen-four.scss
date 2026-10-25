@@ -45,12 +45,29 @@
   object-fit: contain;
 }
 
-.lampL { width: 75px; }
-.lampM {
-    width: 55px;
-    margin-top: 30px;
+.lampL { 
+  width: 75px; 
+  @include tablet-landscape{
+    width: 125px; 
+    margin-top: 100px;
+  }
 }
-.lampS { width: 40px; margin-top: 15px; }
+.lampM {
+  width: 55px;
+  margin-top: 30px;
+  @include tablet-landscape{
+    width: 90px; 
+    margin-top: 80px;
+  }
+}
+.lampS { 
+  width: 40px;
+  margin-top: 15px; 
+  @include tablet-landscape{
+    width: 40px; 
+    margin-top: 60px;
+  }
+}
 
 /* Typography */
 .textWrapper {

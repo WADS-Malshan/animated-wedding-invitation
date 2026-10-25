@@ -1,9 +1,37 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function ScreenFive() {
+  const containerRef = useRef(null);
+
+  useGSAP(() => {
+    // 1. Corner Flowers Swaying Animation (Mal hulangata hellenawa wage)
+    gsap.to('.cornerFlower', {
+      rotation: 6,       // Podi rotation ekak
+      y: -7,             // Udata pallahata yanawa
+      x: 3,              // Poddak paththata yanawa
+      duration: 3.5,     // Animation speed eka
+      repeat: -1,        // Digatama play wenna
+      yoyo: true,        // Apahu mulata enna
+      ease: 'sine.inOut',
+      stagger: 0.35      // Eka eka mala wenas welawal wala hellenna
+    });
+
+    // 2. Walking Couple Effect (Avidagena yana nisa podi bobbing effect ekak)
+    gsap.to('.walkingCoupleImg', {
+      y: -8,             // Avidinawa wage poddak udata pallahata wenawa
+      scale: 1.01,       // Us gannawa wage podi scale ekak
+      duration: 2.5,     // Avidina speed eka wage feel wenna kalin ewata wada poddak fast kara
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    });
+  }, { scope: containerRef });
+
   return (
-    <section className="screenFive">
+    <section ref={containerRef} className="screenFive">
       
       {/* Background Layer */}
       <picture className="backgroundLayer">

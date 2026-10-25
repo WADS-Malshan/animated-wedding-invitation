@@ -105,9 +105,9 @@ export default function Home() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=1200%", // Speed eka adu karanna scroll distance eka wadi kara (600% -> 1200%)
+          end: "+=500%", // Scroll karanna ona dura adu kara
           pin: true,     
-          scrub: 1,      // Scrub eka 1 karala smooth kara
+          scrub: 1,      // Smooth wena eka 1 kala
           anticipatePin: 1, 
         }
       });
@@ -131,33 +131,33 @@ export default function Home() {
       tl.to(screenThreeWrapperRef.current, { autoAlpha: 1, ease: "none" }, 0.4);
       tl.to(flyingFlowerRef.current, { autoAlpha: 0, ease: "none" }, 0.6); 
 
-      // 2. Screen 3 Hold
-      tl.to({}, { duration: 0.5 }); 
+      // 2. Screen 3 Hold - Delay eka adu kara
+      tl.to({}, { duration: 0.2 }); 
 
       // 3. Screen 3 -> Screen 4
-      tl.set(screenFourWrapperRef.current, { autoAlpha: 1 }, "+=0.2");
+      tl.set(screenFourWrapperRef.current, { autoAlpha: 1 }, "+=0.1");
       tl.to(stripClass4, { 
         attr: { height: 1 }, 
         stagger: 0.05, 
         ease: "power2.inOut" 
       }); 
 
-      // 4. Screen 4 Hold
-      tl.to({}, { duration: 0.5 }); 
+      // 4. Screen 4 Hold - Delay eka adu kara
+      tl.to({}, { duration: 0.2 }); 
 
       // 5. Screen 4 -> Screen 5
-      tl.set(screenFiveWrapperRef.current, { autoAlpha: 1 }, "+=0.2");
+      tl.set(screenFiveWrapperRef.current, { autoAlpha: 1 }, "+=0.1");
       tl.to(stripClass5, { 
         attr: { y: 0, height: 1 }, 
         stagger: 0.05, 
         ease: "power2.inOut" 
       }); 
       
-      // 6. Screen 5 Hold
-      tl.to({}, { duration: 0.5 }); 
+      // 6. Screen 5 Hold - Delay eka adu kara
+      tl.to({}, { duration: 0.2 }); 
 
       // 7. Screen 5 -> Screen 6
-      tl.set(screenSixWrapperRef.current, { autoAlpha: 1 }, "+=0.2");
+      tl.set(screenSixWrapperRef.current, { autoAlpha: 1 }, "+=0.1");
       tl.to(stripClass6, { 
         attr: { height: 1 }, 
         stagger: {
@@ -167,8 +167,8 @@ export default function Home() {
         ease: "power2.inOut" 
       }); 
 
-      // 8. Screen 6 Hold
-      tl.to({}, { duration: 0.5 }); 
+      // 8. Screen 6 Hold - Delay eka adu kara
+      tl.to({}, { duration: 0.2 }); 
 
       // 9. Screen 6 -> Screen 7 (Zoom Into Invitation Card)
       const zoomX = isDesktop ? "-25vw" : "-30vw"; 
@@ -181,7 +181,7 @@ export default function Home() {
         y: zoomY,
         transformOrigin: zoomOrigin, 
         ease: "power2.inOut", 
-        duration: 2 
+        duration: 1.5 
       });
 
       // 10. Screen 7 Fade in
@@ -189,7 +189,7 @@ export default function Home() {
         autoAlpha: 1, 
         ease: "power1.inOut",
         duration: 1
-      }, "-=1"); 
+      }, "-=0.8"); 
 
     });
 
@@ -308,8 +308,8 @@ export default function Home() {
               position: 'absolute', top: '-15px', right: '-15px', width: '50px', height: '50px', 
               transformOrigin: 'center center',
               willChange: 'transform', 
-              transform: 'translateZ(0)', // GPU Hardware Acceleration
-              backfaceVisibility: 'hidden' // Prevents lag during large scales
+              transform: 'translateZ(0)', 
+              backfaceVisibility: 'hidden' 
             }}
           />
         </div>
