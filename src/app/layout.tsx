@@ -20,8 +20,8 @@ const parisienne = Parisienne({
 });
 
 export const metadata: Metadata = {
-  title: "Senaro",
-  description: "The Motor Cycle Company",
+  title: "J & K",
+  description: "Wedding Invitation",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -13,90 +13,182 @@
   flex-direction: column;
   align-items: center;
   z-index: 6; 
-}
 
-.backgroundLayer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-
-  img {
+  .backgroundLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-}
+    z-index: 1;
 
-.coupleWrapper {
-  position: absolute;
-  bottom: 8%; /* Path var couple y योग्य thikani disnya sathi */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 60vh; 
-  z-index: 3;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+/* Typography */
+.textWrapper {
+  position: relative;
+  z-index: 10; 
+  margin-top: 6vh;
+  text-align: center;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
 }
 
-.coupleImg {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: bottom center;
-}
-
-/* Corner Flowers Layer */
-.cornerFlower {
+.textGlow {
   position: absolute;
-  z-index: 4;
-  width: 45vw;
-  max-width: 250px;
+  width: 180%;
+  max-width: 450px;
+  opacity: 0.9;
+  z-index: -1;
   pointer-events: none;
-  
-  @media (min-width: 992px) {
-    width: 20vw;
+  top: -12vh;
+  @include tablet-landscape{
+    top: -12vh;
+    width: 220%;
+    max-width: 550px;
   }
 }
 
-.topLeft {
-  top: -5%;
-  left: -5%;
-  @include tablet-landscape {
-    top: 0;
-    left: 0;
+.textContent {
+  color: #5c2c16; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Text tika madata ganna */
+  text-align: center;  /* Text tika madata ganna */
+}
+
+.topHeading {
+  font-weight: bold;
+        @include textStyle(
+          $primary-font-family,
+          20px,
+          20px, /* Line height eka poddak wadi kara line breaks clear wenna */
+          0,
+          #252323
+        );
+      }
+
+      .middleText {
+        margin: 8px 0;
+        font-weight: 600;
+        @include textStyle(
+        $primary-font-family,
+        13px,
+        13px, /* Line height eka poddak wadi kara line breaks clear wenna */
+        0,
+        #252323
+      );
+      }
+
+      .smallText {
+        @include textStyle(
+          $primary-font-family,
+          13px,
+          13px, /* Line height eka poddak wadi kara line breaks clear wenna */
+          0,
+          #555
+        );
+      }
+
+.topSmallText, .bottomSmallText {
+  font-weight: 600;
+  margin: 0;
+  @include textStyle(
+    $primary-font-family,
+    13px,
+    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
+    0,
+    #252323
+  );
+  &.new{
+    margin-top: 15px;
   }
 }
 
-.topRight {
-  top: -5%;
-  right: -5%;
-  @include tablet-landscape {
-    top: 0;
-    right: 0;
-  }
+.scriptText {
+  font-family: $secondary-font-family; 
+  font-size: 3.5rem;
+  font-weight: bold; /* Image eke script font eka godak bold na */
+  color: #903c2a; 
+  margin: 15px 0;
+  line-height: 1.1;
 }
 
-.bottomLeft {
-  bottom: -5%;
-  left: -5%;
-  @include tablet-landscape {
-    bottom: 0;
-    left: 0;
-  }
-}
 
-.bottomRight {
-  bottom: -5%;
-  right: -5%;
-  @include tablet-landscape {
-    bottom: 0;
-    right: 0;
+  .walkingCoupleWrapper {
+    position: absolute;
+    bottom: -7%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 70vh; 
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .walkingCoupleImg {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+  }
+
+  /* Corner Flowers Layer */
+  .cornerFlower {
+    position: absolute;
+    z-index: 4;
+    width: 45vw;
+    max-width: 250px;
+    pointer-events: none;
+    
+    @media (min-width: 992px) {
+      width: 20vw;
+    }
+  }
+
+  .topLeft {
+    top: -5%;
+    left: -5%;
+    @include tablet-landscape {
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .topRight {
+    top: -5%;
+    right: -5%;
+    @include tablet-landscape {
+      top: 0;
+      right: 0;
+    }
+  }
+
+  .bottomLeft {
+    bottom: -5%;
+    left: -5%;
+    @include tablet-landscape {
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  .bottomRight {
+    bottom: -5%;
+    right: -5%;
+    @include tablet-landscape {
+      bottom: 0;
+      right: 0;
+    }
   }
 }

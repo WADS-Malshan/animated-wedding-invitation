@@ -22,9 +22,16 @@ export default function ScreenFour() {
         <img src="/img/4/text-back.png" className="textGlow" alt="Text Glow" />
         
         <div className="textContent">
-          <p className="topSmallText">BUT A LOVE STORY IS<br/>NEVER JUST ABOUT</p>
+          <p className="topSmallText">
+            But a love story is<br />never just about
+          </p>
           <h2 className="scriptText">Two People</h2>
-          <p className="bottomSmallText">IT'S ABOUT THE LAUGHTER<br/>THEY'VE SHARED, THE MEMORIES<br/>THEY'VE MADE, AND THE PEOPLE<br/>WHO HELPED SHAPE THEIR STORY.</p>
+          <p className="bottomSmallText">
+            It's about the laughter<br />
+            they've shared, the memories<br />
+            they've made, and the people<br />
+            who helped shape their story.
+          </p>
         </div>
       </div>
 

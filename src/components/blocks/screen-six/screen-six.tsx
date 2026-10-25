@@ -21,7 +21,13 @@ export default function ScreenSix() {
         <img src="/img/6/text back.png" className="textGlow" alt="Text Glow" />
         
         <div className="textContent">
-          <p className="topSmallText">OF ALL THE PEOPLE<br/>IN THE WORLD,<br/>THERE'S SOMEONE THEY<br/>COULDN'T IMAGINE<br/>THIS MOMENT WITHOUT</p>
+          <p className="topSmallText">
+            Of all the people<br />
+            in the world,<br />
+            there's someone they<br />
+            couldn't imagine<br />
+            this moment without
+          </p>
           <h2 className="scriptText">you</h2>
         </div>
       </div>

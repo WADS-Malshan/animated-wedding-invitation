@@ -36,9 +36,9 @@ export default function ScreenThree() {
           <p className="topSmallText">
             TWO PEOPLE,<br/>
             EACH WITH A LITTLE<br/>
-            WORLD OF THEIR OWN.<br/>
-            AND SOMEHOW,
+            WORLD OF THEIR OWN.
           </p>
+          <p className="topSmallText new">AND SOMEHOW,</p>
           <div className="scriptWrapper">
             <h2 className="scriptText">those worlds</h2>
           </div>

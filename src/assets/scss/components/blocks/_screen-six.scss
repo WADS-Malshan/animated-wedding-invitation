@@ -13,9 +13,8 @@
   flex-direction: column;
   align-items: center;
   z-index: 7; 
-}
 
-.backgroundLayer {
+  .backgroundLayer {
   position: absolute;
   top: 0;
   left: 0;
@@ -60,7 +59,7 @@
 .textWrapper {
   position: relative;
   z-index: 10; 
-  margin-top: 18vh;
+  margin-top: 13vh;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -71,35 +70,46 @@
   position: absolute;
   width: 180%;
   max-width: 450px;
-  opacity: 0.85;
+  opacity: 0.9;
   z-index: -1;
   pointer-events: none;
+  top: -12vh;
+  @include tablet-landscape{
+    top: -12vh;
+    width: 220%;
+    max-width: 550px;
+  }
 }
 
 .textContent {
-  color: #3d1c04; 
+  color: #5c2c16; 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0 15px;
+  align-items: center; /* Text tika madata ganna */
+  text-align: center;  /* Text tika madata ganna */
 }
 
-.topSmallText {
-  font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+.topSmallText, .bottomSmallText {
   font-weight: 600;
   margin: 0;
-  line-height: 1.6;
-  text-align: center;
+  @include textStyle(
+    $primary-font-family,
+    13px,
+    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
+    0,
+    #252323
+  );
+  &.new{
+    margin-top: 15px;
+  }
 }
 
 .scriptText {
-  font-family: 'Great Vibes', cursive;
-  font-size: 4.5rem; /* 'you' ke liye bada font size */
-  font-weight: 400;
-  color: #9e3d26; 
-  margin: 5px 0 0 0;
-  line-height: 1;
+  font-family: $secondary-font-family; 
+  font-size: 3.5rem;
+  font-weight: bold; /* Image eke script font eka godak bold na */
+  color: #903c2a;
+  line-height: 1.1;
 }
+}
+

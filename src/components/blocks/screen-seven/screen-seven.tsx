@@ -20,20 +20,24 @@ export default function ScreenSeven() {
         
         {/* Names Section */}
         <div className="coupleNames">
-          <div className="heartIcon">♡♡</div>
           <h2 className="scriptText">Jayani</h2>
-          <span className="andText">and</span>
+          <h2 className="scriptText small">and</h2>
           <h2 className="scriptText">Kulinda</h2>
         </div>
         
         {/* Divider */}
-        <div className="divider">❦</div>
+        {/* <div className="divider">❦</div> */}
 
         {/* Request Text */}
         <p className="requestText">
           WARMLY REQUEST THE HONOUR<br/>
-          OF THE PRESENCE OF<br/><br/>
-          <span className="celebrateText">TO CELEBRATE THEIR WEDDING ON</span>
+          OF THE PRESENCE OF<br/>
+        </p>
+
+        <h2 className="invite-name">Mr. Ruwan</h2>
+
+        <p className="requestText">
+          TO CELEBRATE THEIR WEDDING ON
         </p>
 
         {/* Date Section with Watermark */}

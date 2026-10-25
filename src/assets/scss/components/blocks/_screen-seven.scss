@@ -79,12 +79,16 @@
 }
 
 .scriptText {
-  font-family: 'Great Vibes', cursive;
+  font-family: $secondary-font-family; 
   font-size: 4.5rem;
   font-weight: 400;
   color: #ab573e; /* Rusty red/brown color */
   margin: -10px 0;
   line-height: 1.2;
+  &.small{
+    font-size: 2.5rem;
+    margin: 8px 0;
+  }
 }
 
 .andText {
@@ -102,13 +106,26 @@
 }
 
 .requestText {
-  font-family: 'Cinzel', serif;
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
   text-transform: uppercase;
-  font-weight: 600;
-  line-height: 1.6;
-  margin-bottom: 15px;
+  font-weight: bold;
+  @include textStyle(
+    $primary-font-family,
+    13px,
+    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
+    0,
+    #252323
+  );
+}
+
+.invite-name{
+  margin: 12px 0;
+  @include textStyle(
+    $primary-font-family,
+    17px,
+    17px, /* Line height eka poddak wadi kara line breaks clear wenna */
+    0,
+    #252323
+  );
 }
 
 .celebrateText {
@@ -118,7 +135,7 @@
 /* Date Section & Watermark */
 .dateSection {
   position: relative;
-  margin: 20px 0;
+  margin: 50px 0 20px 0;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -130,20 +147,22 @@
   font-family: 'Cinzel', serif;
   font-size: 7rem;
   font-weight: 700;
-  color: rgba(200, 180, 150, 0.25); /* Faint watermark color */
+  color: rgba(200, 180, 150, 0.5); /* Faint watermark color */
   z-index: -1;
-  top: 50%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
 .dateText {
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  font-weight: 600;
-  line-height: 1.5;
+ @include textStyle(
+    $primary-font-family,
+    13px,
+    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
+    0,
+    #252323
+  );
   margin: 0;
 }
 
@@ -159,13 +178,16 @@
 
 /* Location */
 .locationText {
-  font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
   text-transform: uppercase;
-  font-weight: 600;
-  line-height: 1.6;
   margin-top: 20px;
+  font-weight: bold;
+  @include textStyle(
+    $primary-font-family,
+    13px,
+    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
+    0,
+    #252323
+  );
 }
 
 .poruwaText {

@@ -55,15 +55,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @include tablet-landscape{
+    margin-top: 15vh;
+  }
 }
 
 .textGlow {
   position: absolute;
   width: 180%;
   max-width: 450px;
-  opacity: 0.85;
+  opacity: 0.9;
   z-index: -1;
   pointer-events: none;
+  top: -12vh;
+  @include tablet-landscape{
+    top: -12vh;
+    width: 220%;
+    max-width: 550px;
+  }
 }
 
 .textContent {
@@ -72,7 +81,6 @@
   flex-direction: column;
   align-items: center; /* Text tika madata ganna */
   text-align: center;  /* Text tika madata ganna */
-  gap: 10px;
 }
 
 .topSmallText, .bottomSmallText {
@@ -86,6 +94,9 @@
     0,
     #252323
   );
+  &.new{
+    margin-top: 15px;
+  }
 }
 
 .scriptText {

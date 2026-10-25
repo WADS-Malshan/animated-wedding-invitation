@@ -1,218 +1,242 @@
 'use client';
+import { useRef, useState, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import ScreenOne from "@/components/blocks/screen-one";
+import ScreenTwo from "@/components/blocks/screen-two";
+import ScreenThree from "@/components/blocks/screen-three";
+import ScreenFour from "@/components/blocks/screen-four";
+import ScreenFive from "@/components/blocks/screen-five"; 
+import ScreenSix from "@/components/blocks/screen-six"; 
+import ScreenSeven from "@/components/blocks/screen-seven"; 
 
-import React, { useState, useRef } from 'react';
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
-export default function WeddingContent() {
-  const [activeScreen, setActiveScreen] = useState(1);
-  const [hideScreenOne, setHideScreenOne] = useState(false);
-  const [isFlowerLanded, setIsFlowerLanded] = useState(false);
+export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const flyingFlowerRef = useRef<HTMLImageElement>(null);
+  const screenOneWrapperRef = useRef<HTMLDivElement>(null);
+  const screenTwoWrapperRef = useRef<HTMLDivElement>(null);
+  const screenThreeWrapperRef = useRef<HTMLDivElement>(null);
+  const screenFourWrapperRef = useRef<HTMLDivElement>(null);
+  const screenFiveWrapperRef = useRef<HTMLDivElement>(null); 
+  const screenSixWrapperRef = useRef<HTMLDivElement>(null); 
+  const screenSevenWrapperRef = useRef<HTMLDivElement>(null); 
   
-  // Scroll progress 0 inda 100 varege
-  const [zoomProgress, setZoomProgress] = useState(0);
+  const [isScreenOneDone, setIsScreenOneDone] = useState(false);
+  const [isDesktopView, setIsDesktopView] = useState(true);
 
-  const touchStartY = useRef(0);
-  const touchStartZoom = useRef(0);
+  const { contextSafe } = useGSAP({ scope: containerRef });
 
-  const text1 = "SOME OF THE MOST";
-  const text2 = "Beautiful Stories begin";
-  const text3 = "WHEN NO ONE IS QUITE EXPECTING THEM.";
+  useEffect(() => {
+    const handleResize = () => setIsDesktopView(window.innerWidth >= 992);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  const handleOpen = () => {
-    setActiveScreen(2);
-    // 2.2s nantara flower land aaguttade
-    setTimeout(() => {
-      setIsFlowerLanded(true);
-    }, 2200);
-  };
-
-  const handleCurtainTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (activeScreen > 1 && e.propertyName === 'transform') {
-      setHideScreenOne(true);
+  useEffect(() => {
+    if (isScreenOneDone) {
+      document.body.style.overflowX = 'hidden';
+      document.body.style.overflowY = 'auto'; 
+      document.documentElement.style.scrollbarWidth = 'none'; 
+      setTimeout(() => ScrollTrigger.refresh(), 100);
+    } else {
+      document.body.style.overflow = 'hidden';
     }
-  };
-
-  const handleWheel = (e: React.WheelEvent) => {
-    if (activeScreen === 1 || !isFlowerLanded) return;
-
-    if (activeScreen === 2) {
-      setZoomProgress((prev) => {
-        let next = prev + e.deltaY * 0.08; // Smooth zoom speed
-        if (next <= 0) next = 0;
-        if (next >= 100) {
-          next = 100;
-          setActiveScreen(3);
-        }
-        return next;
-      });
-    } else if (activeScreen === 3 && e.deltaY < 0) {
-      setActiveScreen(2);
-      setZoomProgress(95);
-    }
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-    touchStartZoom.current = zoomProgress;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (activeScreen === 1 || !isFlowerLanded) return;
     
-    const touchCurrentY = e.touches[0].clientY;
-    const deltaY = touchStartY.current - touchCurrentY;
+    return () => { 
+      document.body.style.overflow = 'auto'; 
+      document.documentElement.style.scrollbarWidth = 'auto';
+    };
+  }, [isScreenOneDone]);
 
-    if (activeScreen === 2) {
-      let next = touchStartZoom.current + deltaY * 0.25;
-      if (next <= 0) next = 0;
-      if (next >= 100) {
-        next = 100;
-        setActiveScreen(3);
+  const handleFlowerAnimation = contextSafe(() => {
+    let mm = gsap.matchMedia();
+
+    mm.add({
+      isDesktop: "(min-width: 992px)",
+      isMobile: "(max-width: 991px)"
+    }, (context) => {
+      let { isDesktop } = context.conditions as { isDesktop: boolean };
+      const targetX = isDesktop ? '-2vw' : '-10vw'; 
+      const targetY = isDesktop ? '-3vh' : '0vh';    
+
+      if (flyingFlowerRef.current) {
+        gsap.to(flyingFlowerRef.current, {
+          x: targetX,
+          y: targetY,
+          rotation: 360,
+          scale: 0.6, // Width/Height වෙනුවට scale භාවිතා කර ඇත (Layout Reflows නතර වේ)
+          duration: 1.5,
+          force3D: true, 
+          lazy: false,
+          ease: "power2.inOut",
+          onComplete: () => {
+            setIsScreenOneDone(true); 
+          }
+        });
       }
-      setZoomProgress(next);
-    } else if (activeScreen === 3 && deltaY < -20) {
-      setActiveScreen(2);
-      setZoomProgress(95);
+    });
+
+    if (screenOneWrapperRef.current) {
+      gsap.to(screenOneWrapperRef.current, {
+        autoAlpha: 0,
+        duration: 0.5,
+        delay: 1.6,
+        display: 'none'
+      });
     }
-  };
+  });
 
-  const renderSmoothLetters = (text: string, startDelay: number, speed: number = 0.05) => {
-    return text.split('').map((char, index) => (
-      <span
-        key={index}
-        className="smoothLetter"
-        style={{
-          animationDelay: `${startDelay + (index * speed)}s`, 
-          animationPlayState: activeScreen >= 2 ? 'running' : 'paused'
-        }}
-      >
-        {char === ' ' ? '\u00A0' : char}
-      </span>
-    ));
-  };
+  useGSAP(() => {
+    if (!isScreenOneDone) return;
 
-  // --- PREMIUM HIGH-QUALITY ZOOM LOGIC ---
-  
-  // Transform scale() badalu neravagi width & height change maduttiddeve. 
-  // Idarinda entha dodda zoom aadaru image blur aagalla. (40px to ~5000px)
-  const flowerSize = 40 + (zoomProgress / 100) * 5000; 
-  
-  // Progress 50 inda 60 naduve (Flower inda screen cover aagiruvaaga) Screen 2 inda 3 ge switch aaguttade
-  const screenTwoOpacity = Math.max(0, 1 - ((zoomProgress - 50) / 10));
-  const screenThreeOpacity = Math.min(1, Math.max(0, (zoomProgress - 50) / 10));
-  
-  // Progress 75 inda 100 varege, switch aada nantara flower fade aaguttade
-  const flowerOpacity = zoomProgress < 75 ? 1 : 1 - ((zoomProgress - 75) / 25);
+    let mm = gsap.matchMedia();
 
-  const showScreenTwo = activeScreen === 1 || (activeScreen === 2 && zoomProgress < 60);
-  const showScreenThree = activeScreen === 3 || (activeScreen === 2 && zoomProgress >= 50);
+    mm.add({
+      isDesktop: "(min-width: 992px)",
+      isMobile: "(max-width: 991px)"
+    }, (context) => {
+      let { isDesktop } = context.conditions as { isDesktop: boolean };
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=600%", 
+          pin: true,     
+          scrub: 2.5,
+          anticipatePin: 1,
+          fastScrollEnd: true, 
+        }
+      });
+
+      // Scale multiplier calculated for smooth GPU zoom without changing layout dimensions
+      const targetScale = isDesktop ? 100 : 50; 
+      
+      const stripClass4 = isDesktop ? '.strip4-desk' : '.strip4-mob';
+      const stripClass5 = isDesktop ? '.strip5-desk' : '.strip5-mob';
+      const stripClass6 = isDesktop ? '.strip6-desk' : '.strip6-mob';
+
+      // 1. Screen 1 -> Screen 2 -> Screen 3 (Palaweani Zoom Fix: Transform/Scale-based Pure GPU execution)
+      tl.to(flyingFlowerRef.current, {
+        x: '0vw',
+        y: '0vh',
+        rotation: "+=180", 
+        scale: targetScale, // width/height animate නොකර GPU Hardware accelerated scale100x එකක් යෙදුවා
+        transformOrigin: "50% 50%",
+        force3D: true, 
+        lazy: false,
+        ease: "power1.inOut"
+      }, 0);
+
+      tl.to(screenTwoWrapperRef.current, { autoAlpha: 0, ease: "none", lazy: false }, 0.4);
+      tl.to(screenThreeWrapperRef.current, { autoAlpha: 1, ease: "none", lazy: false }, 0.4);
+      tl.to(flyingFlowerRef.current, { autoAlpha: 0, ease: "none", lazy: false }, 0.6); 
+
+      // 2. Screen 3 Hold
+      tl.to({}, { duration: 0.5 }); 
+
+      // 3. Screen 3 -> Screen 4
+      tl.set(screenFourWrapperRef.current, { autoAlpha: 1 }, "+=0.2");
+      tl.to(stripClass4, { attr: { height: 1 }, stagger: 0.05, ease: "power2.inOut", lazy: false }); 
+
+      // 4. Screen 4 Hold
+      tl.to({}, { duration: 0.5 }); 
+
+      // 5. Screen 4 -> Screen 5
+      tl.set(screenFiveWrapperRef.current, { autoAlpha: 1 }, "+=0.2");
+      tl.to(stripClass5, { attr: { y: 0, height: 1 }, stagger: 0.05, ease: "power2.inOut", lazy: false }); 
+      
+      // 6. Screen 5 Hold
+      tl.to({}, { duration: 0.5 }); 
+
+      // 7. Screen 5 -> Screen 6
+      tl.set(screenSixWrapperRef.current, { autoAlpha: 1 }, "+=0.2");
+      tl.to(stripClass6, { attr: { height: 1 }, stagger: { each: 0.05, from: "center" }, ease: "power2.inOut", lazy: false }); 
+
+      // 8. Screen 6 Hold
+      tl.to({}, { duration: 0.5 }); 
+
+      // 9. Screen 6 -> Screen 7 
+      const zoomX = isDesktop ? "-25vw" : "-30vw"; 
+      const zoomY = isDesktop ? "-30vh" : "-40vh";
+      const zoomOrigin = isDesktop ? "80% 75%" : "75% 80%"; 
+
+      tl.to(screenSixWrapperRef.current, {
+        scale: 8, 
+        x: zoomX, 
+        y: zoomY,
+        transformOrigin: zoomOrigin, 
+        ease: "power2.inOut", 
+        duration: 2,
+        lazy: false
+      });
+
+      // 10. Screen 7 Fade in
+      tl.to(screenSevenWrapperRef.current, { 
+        autoAlpha: 1, 
+        ease: "power1.inOut",
+        duration: 1,
+        lazy: false
+      }, "-=1"); 
+
+    });
+
+  }, [isScreenOneDone]);
 
   return (
-    <div 
-      className="invitationContainer"
-      onWheel={handleWheel}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-    >
-      
-      {/* SHARED CORNERS */}
-      {activeScreen >= 2 && (
-        <div className="sharedCorners">
-          <div className="cornerFlower corner1"><img src="/img/2/corner (3).png" alt="Corner 1" /></div>
-          <div className="cornerFlower corner2"><img src="/img/2/corner (1).png" alt="Corner 2" /></div>
-          <div className="cornerFlower corner3"><img src="/img/2/corner (4).png" alt="Corner 3" /></div>
-          <div className="cornerFlower corner4"><img src="/img/2/corner (2).png" alt="Corner 4" /></div>
-        </div>
-      )}
+    <>
+      <style>{`
+        ::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
 
-      {/* MAGICAL FLOWER (High Quality Dynamic Width/Height) */}
-      <div 
-        className={`magicFlower ${activeScreen >= 2 ? 'flyToEar' : ''}`}
-        style={isFlowerLanded ? {
-          width: `${flowerSize}px`,
-          height: `${flowerSize}px`,
-          transform: `translate(-50%, -50%) rotate(350deg)`,
-          transition: 'none', 
-          opacity: activeScreen === 3 ? 0 : flowerOpacity
-        } : {}}
-      >
-        <img src="/img/2/flower 2.png" alt="Magical Flower" />
-      </div>
+      {/* SVG MASKS */}
+      <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
+        {/* ... (Keep existing SVG clipPaths) ... */}
+      </svg>
 
-      {/* ---------------- SCREEN 3 ---------------- */}
-      <div 
-        className={`screenThreeContent ${showScreenThree ? 'active' : ''}`}
-        style={{ opacity: showScreenThree ? screenThreeOpacity : 0 }}
-      >
-        <div className="bg3">
-          <img src="/img/3/Hue_Saturation 2.png" alt="Sunset Background" />
-        </div>
-        <div className="textBack3">
-          <img src="/img/3/text back.png" alt="Glow" />
-        </div>
-        <div className="dancingCoupleLayer">
-          <img src="/img/3/Tender twirl of an ivory-clad couple.png" alt="Dancing Couple" />
+      <main ref={containerRef} style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'transparent' }}>
+        
+        {/* FLOWER WRAPPER */}
+        <div 
+          style={{
+            position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+            width: '50px', height: '50px', zIndex: 50, pointerEvents: 'none',
+            contain: 'strict',
+          }}
+        >
+          <img 
+            ref={flyingFlowerRef}
+            src="/img/common/flower.webp" 
+            alt="Flying Flower" 
+            loading="eager" 
+            decoding="sync" 
+            fetchPriority="high" 
+            style={{ 
+              position: 'absolute', 
+              top: '0', left: '0', 
+              width: '100%', height: '100%', 
+              transformOrigin: 'center center',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+              transformStyle: 'preserve-3d',
+            }}
+          />
         </div>
 
-        <div className="screenThreeText">
-          <p className="subTitleTop">TWO PEOPLE,</p>
-          <p className="subTitleTop" style={{ fontSize: '0.6rem', marginTop: '-5px' }}>EACH WITH A LITTLE<br/>WORLD OF THEIR OWN.</p>
-          <p className="subTitleTop" style={{ marginTop: '10px' }}>AND SOMEHOW,</p>
-          <h2 className="scriptTitle">those worlds</h2>
-          <p className="subTitleTop">FIND EACH OTHER.</p>
+        {/* Screen 1 */}
+        <div ref={screenOneWrapperRef} style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
+          <ScreenOne onAnimateFlower={handleFlowerAnimation} />
         </div>
-      </div>
-
-      {/* ---------------- SCREEN 2 ---------------- */}
-      <div 
-        className="screenTwoContent"
-        style={{ opacity: showScreenTwo ? screenTwoOpacity : 0, pointerEvents: showScreenTwo ? 'auto' : 'none' }} 
-      >
-        <div className="bg1">
-          <img src="/img/2/background1.png" alt="Background" />
-        </div>
-        <div className="textBack">
-          <img src="/img/2/text back.png" alt="Glow" />
-        </div>
-        <div className="coupleLayer">
-          <img src="/img/2/couple.png" alt="Couple" />
-        </div>
-
-        <div className="textWrapper">
-          <p className="subTitleTop">
-            {activeScreen >= 2 && renderSmoothLetters(text1, 2.4, 0.06)}
-          </p>
-          <h1 className="mainTitle">
-            {activeScreen >= 2 && renderSmoothLetters(text2, 3.6, 0.08)}
-          </h1>
-          <p className="subTitleBottom">
-            {activeScreen >= 2 && renderSmoothLetters(text3, 5.8, 0.05)}
-          </p>
-        </div>
-      </div>
-
-      {/* ---------------- SCREEN 1 ---------------- */}
-      {!hideScreenOne && (
-        <div className="screenOneOverlay">
-          <div className={`firstBg ${activeScreen >= 2 ? 'fadeOut' : ''}`}></div>
-          <div className={`flowerLeft ${activeScreen >= 2 ? 'openLeft' : ''}`} onTransitionEnd={handleCurtainTransitionEnd}>
-            <img src="/img/1/left.png" alt="Flowers Left" />
-          </div>
-          <div className={`flowerRight ${activeScreen >= 2 ? 'openRight' : ''}`}>
-            <img src="/img/1/right.png" alt="Flowers Right" />
-          </div>
-          <div className={`buttonContainer ${activeScreen >= 2 ? 'hideButton' : ''}`}>
-            <button className="envelopeButton" onClick={handleOpen}>
-              <div className="pulseRing"></div>
-              <div className="pulseRing delay"></div>
-              <div className="buttonContent">
-                <svg className="envelopeIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#fff" />
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+        
+      </main>
+    </>
   );
 }

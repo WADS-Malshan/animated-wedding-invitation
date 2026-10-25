@@ -11,9 +11,26 @@ export default function ScreenFive() {
         <img src="/img/5/background.png" alt="Sunset Path Background" />
       </picture>
 
+      {/* Typography Section (Highest z-index) */}
+      <div className="textWrapper">
+        <img src="/img/4/text-back.png" className="textGlow" alt="Text Glow" />
+        <div className="textContent">
+          <h2 className="topHeading">And now,</h2>
+          <p className="middleText">
+            a new moment is waiting<br />
+            to become a memory.
+          </p>
+          <p className="smallText">
+            They’ve dreamed up a little celebration<br />
+            by the water,
+          </p>
+          <h3 className="scriptText">Beneath The Trees</h3>
+        </div>
+      </div>
+
       {/* Couple Walking */}
-      <div className="coupleWrapper">
-        <img src="/img/5/couple.png" alt="Couple Walking" className="coupleImg" />
+      <div className="walkingCoupleWrapper">
+        <img src="/img/5/couple.png" alt="Couple Walking" className="walkingCoupleImg" />
       </div>
 
       {/* Corner Flowers */}
