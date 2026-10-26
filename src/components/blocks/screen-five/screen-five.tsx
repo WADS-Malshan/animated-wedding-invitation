@@ -65,13 +65,13 @@ export default function ScreenFive({ startTextAnimation = false }: ScreenFivePro
       
       {/* Background Layer */}
       <picture className="backgroundLayer">
-        <source media="(min-width: 992px)" srcSet="/img/5/dt-background.png" />
-        <img src="/img/5/background.png" alt="Sunset Path Background" />
+        <source media="(min-width: 992px)" srcSet="/img/5/dt-background.webp" />
+        <img src="/img/5/background.webp" alt="Sunset Path Background" />
       </picture>
 
       {/* Typography Section */}
       <div className="textWrapper">
-        <img src="/img/4/text-back.png" className="textGlow" alt="Text Glow" />
+        <img src="/img/4/text-back.webp" className="textGlow" alt="Text Glow" />
         <div className="textContent">
           <h2 className="topHeading">{splitText("And now,")}</h2>
           <p className="middleText">
@@ -88,14 +88,14 @@ export default function ScreenFive({ startTextAnimation = false }: ScreenFivePro
 
       {/* Couple Walking */}
       <div className="walkingCoupleWrapper">
-        <img src="/img/5/couple.png" alt="Couple Walking" className="walkingCoupleImg" />
+        <img src="/img/5/couple.webp" alt="Couple Walking" className="walkingCoupleImg" />
       </div>
 
       {/* Corner Flowers */}
-      <img src="/img/5/top-left.png" alt="Top Left Flower" className="cornerFlower topLeft" />
-      <img src="/img/5/top-right.png" alt="Top Right Flower" className="cornerFlower topRight" />
-      <img src="/img/5/bottom-left.png" alt="Bottom Left Flower" className="cornerFlower bottomLeft" />
-      <img src="/img/5/bottom-right.png" alt="Bottom Right Flower" className="cornerFlower bottomRight" />
+      <img src="/img/5/top-left.webp" alt="Top Left Flower" className="cornerFlower topLeft" />
+      <img src="/img/5/top-right.webp" alt="Top Right Flower" className="cornerFlower topRight" />
+      <img src="/img/5/bottom-left.webp" alt="Bottom Left Flower" className="cornerFlower bottomLeft" />
+      <img src="/img/5/bottom-right.webp" alt="Bottom Right Flower" className="cornerFlower bottomRight" />
 
     </section>
   );

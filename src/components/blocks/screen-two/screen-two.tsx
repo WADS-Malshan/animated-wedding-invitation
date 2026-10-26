@@ -64,21 +64,21 @@ export default function ScreenTwo({ startTextAnimation = false }: ScreenTwoProps
     <section ref={containerRef} className="screenTwo">
       
       <picture className="backgroundLayer">
-        <source media="(min-width: 992px)" srcSet="/img/2/dt-background.png" />
-        <img src="/img/2/background.png" alt="Romantic Background" />
+        <source media="(min-width: 992px)" srcSet="/img/2/dt-background.webp" />
+        <img src="/img/2/background.webp" alt="Romantic Background" />
       </picture>
 
       <div className="coupleWrapper">
-        <img src="/img/2/couple.png" alt="Couple" className="coupleImg" />
+        <img src="/img/2/couple.webp" alt="Couple" className="coupleImg" />
       </div>
 
-      <img src="/img/2/top-left.png" alt="Top Left Flower" className="cornerFlower topLeft" />
-      <img src="/img/2/top-right.png" alt="Top Right Flower" className="cornerFlower topRight" />
-      <img src="/img/2/bottom-left.png" alt="Bottom Left Flower" className="cornerFlower bottomLeft" />
-      <img src="/img/2/bottom-right.png" alt="Bottom Right Flower" className="cornerFlower bottomRight" />
+      <img src="/img/2/top-left.webp" alt="Top Left Flower" className="cornerFlower topLeft" />
+      <img src="/img/2/top-right.webp" alt="Top Right Flower" className="cornerFlower topRight" />
+      <img src="/img/2/bottom-left.webp" alt="Bottom Left Flower" className="cornerFlower bottomLeft" />
+      <img src="/img/2/bottom-right.webp" alt="Bottom Right Flower" className="cornerFlower bottomRight" />
 
       <div className="textWrapper">
-        <img src="/img/2/text back.png" className="textGlow" alt="Text Glow" />
+        <img src="/img/2/text back.webp" className="textGlow" alt="Text Glow" />
         
         <div className="textContent">
           <p className="topSmallText">

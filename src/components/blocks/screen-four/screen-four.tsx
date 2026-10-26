@@ -57,8 +57,8 @@ export default function ScreenFour({ startTextAnimation = false }: ScreenFourPro
       
       {/* Background Image */}
       <picture className="backgroundLayer">
-        <source media="(min-width: 992px)" srcSet="/img/4/dt-background.png" />
-        <img src="/img/4/background.png" alt="Dinner Background" />
+        <source media="(min-width: 992px)" srcSet="/img/4/dt-background.webp" />
+        <img src="/img/4/background.webp" alt="Dinner Background" />
       </picture>
 
       {/* Hanging Lamps */}
@@ -70,7 +70,7 @@ export default function ScreenFour({ startTextAnimation = false }: ScreenFourPro
 
       {/* Typography Section */}
       <div className="textWrapper">
-        <img src="/img/4/text-back.png" className="textGlow" alt="Text Glow" />
+        <img src="/img/4/text-back.webp" className="textGlow" alt="Text Glow" />
         
         <div className="textContent">
           <p className="topSmallText">

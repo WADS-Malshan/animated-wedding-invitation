@@ -64,8 +64,8 @@ export default function ScreenSix({ startTextAnimation = false }: ScreenSixProps
       
       {/* Background Layer */}
       <picture className="backgroundLayer">
-        <source media="(min-width: 992px)" srcSet="/img/6/dt-background.png" />
-        <img src="/img/6/background.png" alt="Couple at table" />
+        <source media="(min-width: 992px)" srcSet="/img/6/dt-background.webp" />
+        <img src="/img/6/background.webp" alt="Couple at table" />
       </picture>
 
       {/* Invitation Card on Table */}
@@ -75,7 +75,7 @@ export default function ScreenSix({ startTextAnimation = false }: ScreenSixProps
 
       {/* Typography Section */}
       <div className="textWrapper">
-        <img src="/img/6/text back.png" className="textGlow" alt="Text Glow" />
+        <img src="/img/6/text back.webp" className="textGlow" alt="Text Glow" />
         
         <div className="textContent">
           <p className="topSmallText">

@@ -59,13 +59,13 @@ export default function ScreenOne({ onAnimateFlower }: ScreenOneProps) {
       <div className="backgroundLayer" ref={bgRef}></div>
 
       <picture ref={leftFlowersRef} className="leftFlowers">
-        <source media="(min-width: 992px)" srcSet="/img/1/dt-left.png" />
-        <img src="/img/1/left.png" alt="Left Flowers" />
+        <source media="(min-width: 992px)" srcSet="/img/1/dt-left.webp" />
+        <img src="/img/1/left.webp" alt="Left Flowers" />
       </picture>
       
       <picture ref={rightFlowersRef} className="rightFlowers">
-        <source media="(min-width: 992px)" srcSet="/img/1/dt-right.png" />
-        <img src="/img/1/right.png" alt="Right Flowers" />
+        <source media="(min-width: 992px)" srcSet="/img/1/dt-right.webp" />
+        <img src="/img/1/right.webp" alt="Right Flowers" />
       </picture>
 
       {/* Envelop button eka center karanawa */}

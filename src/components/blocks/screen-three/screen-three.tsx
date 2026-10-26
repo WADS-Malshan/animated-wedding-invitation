@@ -62,8 +62,8 @@ export default function ScreenThree({ startTextAnimation = false }: ScreenThreeP
   return (
     <section ref={containerRef} className="screenThree">
       <picture className="backgroundLayer">
-        <source media="(min-width: 992px)" srcSet="/img/3/dt-background.png" />
-        <img src="/img/3/background.png" alt="Sunset Background" />
+        <source media="(min-width: 992px)" srcSet="/img/3/dt-background.webp" />
+        <img src="/img/3/background.webp" alt="Sunset Background" />
       </picture>
 
       <picture className="bottomGradient">
@@ -72,35 +72,38 @@ export default function ScreenThree({ startTextAnimation = false }: ScreenThreeP
       </picture>
 
       <div className="coupleWrapper">
-        <img src="/img/3/couple.png" alt="Dancing Couple" className="coupleImg" />
+        <img src="/img/3/couple.webp" alt="Dancing Couple" className="coupleImg" />
       </div>
 
-      <img src="/img/2/top-left.png" alt="Top Left Flower" className="cornerFlower topLeft" />
-      <img src="/img/3/top-right.png" alt="Top Right Flower" className="cornerFlower topRight" />
-      <img src="/img/3/bottom-left.png" alt="Bottom Left Flower" className="cornerFlower bottomLeft" />
-      <img src="/img/3/bottom-right.png" alt="Bottom Right Flower" className="cornerFlower bottomRight" />
+      <img src="/img/2/top-left.webp" alt="Top Left Flower" className="cornerFlower topLeft" />
+      <img src="/img/3/top-right.webp" alt="Top Right Flower" className="cornerFlower topRight" />
+      <img src="/img/3/bottom-left.webp" alt="Bottom Left Flower" className="cornerFlower bottomLeft" />
+      <img src="/img/3/bottom-right.webp" alt="Bottom Right Flower" className="cornerFlower bottomRight" />
 
       <div className="textWrapper">
-        <img src="/img/3/text-back.png" className="textGlow" alt="Text Glow" />
+        <img src="/img/3/text-back.webp" className="textGlow" alt="Text Glow" />
         
         <div className="textContent">
           <p className="topSmallText">
-            {splitText("TWO PEOPLE,")}
-            <br/>
-            {splitText("EACH WITH A LITTLE")}
-            <br/>
-            {splitText("WORLD OF THEIR OWN.")}
+            {splitText("Two people,")}
+            <br />
+            {splitText("each with a little")}
+            <br />
+            {splitText("world of their own.")}
           </p>
+
           <p className="topSmallText new">
-            {splitText("AND SOMEHOW,")}
+            {splitText("And somehow,")}
           </p>
+
           <div className="scriptWrapper">
             <h2 className="scriptText">
               {splitText("those worlds")}
             </h2>
           </div>
+
           <p className="bottomSmallText">
-            {splitText("FIND EACH OTHER.")}
+            {splitText("Find each other.")}
           </p>
         </div>
       </div>

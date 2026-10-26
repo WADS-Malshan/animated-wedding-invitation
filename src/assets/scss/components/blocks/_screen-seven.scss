@@ -205,3 +205,190 @@
   margin-top: 5px;
   font-weight: 500;
 }
+
+/* --- RSVP Button --- */
+.rsvpButton {
+  margin-top: 30px;
+  background-color: #252323; // Dark color to match the text
+  color: #fff;
+  border: none;
+  padding: 12px 35px;
+  font-family: $primary-font-family;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  border-radius: 30px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite; // Podi pulse effect ekak
+  
+  &:hover {
+    background-color: #ab573e; // Hover weddi theme color ekata enawa
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 35, 35, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(37, 35, 35, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 35, 35, 0); }
+}
+
+/* --- RSVP Modal Styles --- */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); // Kalu wela focus eka form ekata enawa
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100; // Hamadetama wada udatama enna
+  animation: fadeIn 0.3s ease;
+}
+
+.modalContent {
+  background-color: #f7f1e6; // Card eke background color eka
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  border: 1px solid rgba(171, 87, 62, 0.2);
+  animation: slideUp 0.4s ease;
+  @include tablet-landscape{
+    padding: 30px 20px;
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #ab573e;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.modalTitle {
+  font-family: $secondary-font-family;
+  color: #ab573e;
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+.modalSub {
+  font-family: $primary-font-family;
+  font-size: 12px;
+  color: #252323;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rsvpForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #d4c6b3;
+    background-color: #fff;
+    border-radius: 8px;
+    font-family: $primary-font-family;
+    font-size: 14px;
+    color: #252323;
+    outline: none;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #ab573e;
+    }
+  }
+
+  /* Custom dropdown styling */
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 40px; /* Space for the icon */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23252323' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center; /* Arrow eka lassanata right side ekata balance wenawa */
+    background-size: 16px;
+    cursor: pointer;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  .submitBtn {
+    background-color: #ab573e;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: $primary-font-family;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #8c4530;
+    }
+  }
+}
+
+/* --- Success Message Styles --- */
+.successMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+  animation: fadeIn 0.5s ease;
+
+  .checkIcon {
+    font-size: 50px;
+    color: #ab573e; // Theme color
+    margin-bottom: 15px;
+    animation: scaleIn 0.4s ease-out;
+  }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
