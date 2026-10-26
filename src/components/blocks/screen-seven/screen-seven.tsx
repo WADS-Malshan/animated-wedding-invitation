@@ -17,6 +17,10 @@ export default function ScreenSeven() {
 
       {/* Invitation Content */}
       <div className="invitationContent">
+
+        <div className="heart-icon">
+          <img src="/img/7/heart.png" alt="Card Background" />
+        </div>
         
         {/* Names Section */}
         <div className="coupleNames">
@@ -25,8 +29,9 @@ export default function ScreenSeven() {
           <h2 className="scriptText">Kulinda</h2>
         </div>
         
-        {/* Divider */}
-        {/* <div className="divider">❦</div> */}
+        <div className="devider-icon">
+          <img src="/img/7/wedding-line.png" alt="Card Background" />
+        </div>
 
         {/* Request Text */}
         <p className="requestText">

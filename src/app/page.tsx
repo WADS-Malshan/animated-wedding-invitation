@@ -27,6 +27,10 @@ export default function Home() {
   const screenSevenWrapperRef = useRef<HTMLDivElement>(null); 
   
   const [isScreenOneDone, setIsScreenOneDone] = useState(false);
+  const [isScreenThreeActive, setIsScreenThreeActive] = useState(false); 
+  const [isScreenFourActive, setIsScreenFourActive] = useState(false); 
+  const [isScreenFiveActive, setIsScreenFiveActive] = useState(false); 
+  const [isScreenSixActive, setIsScreenSixActive] = useState(false); 
   const [isDesktopView, setIsDesktopView] = useState(true);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
@@ -93,6 +97,26 @@ export default function Home() {
   useGSAP(() => {
     if (!isScreenOneDone) return;
 
+    // --- Falling Leaves Animation ---
+    gsap.utils.toArray('.falling-leaf').forEach((leaf: any) => {
+      gsap.set(leaf, {
+        x: `random(0, ${window.innerWidth})`,
+        y: -100, 
+        rotation: 'random(0, 360)',
+        opacity: 'random(0.15, 0.35)' 
+      });
+
+      gsap.to(leaf, {
+        y: window.innerHeight + 100, 
+        x: '+=random(-150, 150)',    
+        rotation: '+=random(-180, 180)',
+        duration: 'random(8, 15)',   
+        ease: 'none',
+        repeat: -1,                  
+        delay: 'random(0, 8)'        
+      });
+    });
+
     let mm = gsap.matchMedia();
 
     mm.add({
@@ -105,9 +129,9 @@ export default function Home() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=500%", // Scroll karanna ona dura adu kara
+          end: "+=500%", 
           pin: true,     
-          scrub: 1,      // Smooth wena eka 1 kala
+          scrub: 1,      
           anticipatePin: 1, 
         }
       });
@@ -128,10 +152,15 @@ export default function Home() {
       }, 0);
 
       tl.to(screenTwoWrapperRef.current, { autoAlpha: 0, ease: "none" }, 0.4);
-      tl.to(screenThreeWrapperRef.current, { autoAlpha: 1, ease: "none" }, 0.4);
+      
+      tl.to(screenThreeWrapperRef.current, { 
+        autoAlpha: 1, 
+        ease: "none",
+        onStart: () => setIsScreenThreeActive(true) 
+      }, 0.4);
+      
       tl.to(flyingFlowerRef.current, { autoAlpha: 0, ease: "none" }, 0.6); 
 
-      // 2. Screen 3 Hold - Delay eka adu kara
       tl.to({}, { duration: 0.2 }); 
 
       // 3. Screen 3 -> Screen 4
@@ -139,10 +168,10 @@ export default function Home() {
       tl.to(stripClass4, { 
         attr: { height: 1 }, 
         stagger: 0.05, 
-        ease: "power2.inOut" 
+        ease: "power2.inOut",
+        onStart: () => setIsScreenFourActive(true) // Mask expand weddi text on wenawa
       }); 
 
-      // 4. Screen 4 Hold - Delay eka adu kara
       tl.to({}, { duration: 0.2 }); 
 
       // 5. Screen 4 -> Screen 5
@@ -150,10 +179,10 @@ export default function Home() {
       tl.to(stripClass5, { 
         attr: { y: 0, height: 1 }, 
         stagger: 0.05, 
-        ease: "power2.inOut" 
+        ease: "power2.inOut",
+        onStart: () => setIsScreenFiveActive(true) // Mask expand weddi text on wenawa
       }); 
       
-      // 6. Screen 5 Hold - Delay eka adu kara
       tl.to({}, { duration: 0.2 }); 
 
       // 7. Screen 5 -> Screen 6
@@ -164,13 +193,13 @@ export default function Home() {
           each: 0.05,
           from: "center" 
         }, 
-        ease: "power2.inOut" 
+        ease: "power2.inOut",
+        onStart: () => setIsScreenSixActive(true) // Mask expand weddi text on wenawa
       }); 
 
-      // 8. Screen 6 Hold - Delay eka adu kara
       tl.to({}, { duration: 0.2 }); 
 
-      // 9. Screen 6 -> Screen 7 (Zoom Into Invitation Card)
+      // 9. Screen 6 -> Screen 7
       const zoomX = isDesktop ? "-25vw" : "-30vw"; 
       const zoomY = isDesktop ? "-30vh" : "-40vh";
       const zoomOrigin = isDesktop ? "80% 75%" : "75% 80%"; 
@@ -195,6 +224,8 @@ export default function Home() {
 
   }, [isScreenOneDone]);
 
+  const leavesArray = Array.from({ length: 12 });
+
   return (
     <>
       <style>{`
@@ -203,9 +234,10 @@ export default function Home() {
         }
       `}</style>
 
+      {/* SVG Masks Definitions */}
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
         <defs>
-          {/* MOBILE MASKS (5 Strips) */}
+          {/* MOBILE MASKS */}
           <clipPath id="screen4-mask-mob" clipPathUnits="objectBoundingBox">
             {[0, 0.2, 0.4, 0.6, 0.8].map((x, i) => (
               <rect key={i} className="strip4-mob" x={x} y="0" width="0.2" height="0" />
@@ -222,7 +254,7 @@ export default function Home() {
             ))}
           </clipPath>
 
-          {/* DESKTOP MASKS (10 Strips) */}
+          {/* DESKTOP MASKS */}
           <clipPath id="screen4-mask-desk" clipPathUnits="objectBoundingBox">
             {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((x, i) => (
               <rect key={i} className="strip4-desk" x={x} y="0" width="0.1" height="0" />
@@ -243,75 +275,57 @@ export default function Home() {
 
       <main ref={containerRef} style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'transparent' }}>
         
+        {isScreenOneDone && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 8, pointerEvents: 'none', overflow: 'hidden' }}>
+            {leavesArray.map((_, i) => (
+              <img
+                key={i}
+                className="falling-leaf"
+                src={`/img/common/bg-leave-${(i % 2) + 1}.png`} 
+                alt="Falling leaf petal"
+                style={{ 
+                  position: 'absolute', 
+                  width: isDesktopView ? '35px' : '25px', 
+                  willChange: 'transform' 
+                }}
+              />
+            ))}
+          </div>
+        )}
+
         {/* Screen 7 */}
-        <div ref={screenSevenWrapperRef} style={{ 
-          position: 'absolute', inset: 0, zIndex: 6, 
-          opacity: 0, visibility: 'hidden'
-        }}>
+        <div ref={screenSevenWrapperRef} style={{ position: 'absolute', inset: 0, zIndex: 6, opacity: 0, visibility: 'hidden' }}>
           <ScreenSeven />
         </div>
 
         {/* Screen 6 */}
-        <div ref={screenSixWrapperRef} style={{ 
-          position: 'absolute', inset: 0, zIndex: 5, 
-          opacity: 0, visibility: 'hidden',
-          clipPath: isDesktopView ? 'url(#screen6-mask-desk)' : 'url(#screen6-mask-mob)',
-          WebkitClipPath: isDesktopView ? 'url(#screen6-mask-desk)' : 'url(#screen6-mask-mob)'
-        }}>
-          <ScreenSix />
+        <div ref={screenSixWrapperRef} style={{ position: 'absolute', inset: 0, zIndex: 5, opacity: 0, visibility: 'hidden', clipPath: isDesktopView ? 'url(#screen6-mask-desk)' : 'url(#screen6-mask-mob)', WebkitClipPath: isDesktopView ? 'url(#screen6-mask-desk)' : 'url(#screen6-mask-mob)' }}>
+          <ScreenSix startTextAnimation={isScreenSixActive} />
         </div>
 
         {/* Screen 5 */}
-        <div ref={screenFiveWrapperRef} style={{ 
-          position: 'absolute', inset: 0, zIndex: 4, 
-          opacity: 0, visibility: 'hidden',
-          clipPath: isDesktopView ? 'url(#screen5-mask-desk)' : 'url(#screen5-mask-mob)',
-          WebkitClipPath: isDesktopView ? 'url(#screen5-mask-desk)' : 'url(#screen5-mask-mob)'
-        }}>
-          <ScreenFive />
+        <div ref={screenFiveWrapperRef} style={{ position: 'absolute', inset: 0, zIndex: 4, opacity: 0, visibility: 'hidden', clipPath: isDesktopView ? 'url(#screen5-mask-desk)' : 'url(#screen5-mask-mob)', WebkitClipPath: isDesktopView ? 'url(#screen5-mask-desk)' : 'url(#screen5-mask-mob)' }}>
+          <ScreenFive startTextAnimation={isScreenFiveActive} />
         </div>
 
         {/* Screen 4 */}
-        <div ref={screenFourWrapperRef} style={{ 
-          position: 'absolute', inset: 0, zIndex: 2, 
-          opacity: 0, visibility: 'hidden',
-          clipPath: isDesktopView ? 'url(#screen4-mask-desk)' : 'url(#screen4-mask-mob)',
-          WebkitClipPath: isDesktopView ? 'url(#screen4-mask-desk)' : 'url(#screen4-mask-mob)'
-        }}>
-          <ScreenFour />
+        <div ref={screenFourWrapperRef} style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: 0, visibility: 'hidden', clipPath: isDesktopView ? 'url(#screen4-mask-desk)' : 'url(#screen4-mask-mob)', WebkitClipPath: isDesktopView ? 'url(#screen4-mask-desk)' : 'url(#screen4-mask-mob)' }}>
+          <ScreenFour startTextAnimation={isScreenFourActive} />
         </div>
 
         {/* Screen 3 */}
-        <div ref={screenThreeWrapperRef} style={{ 
-          position: 'absolute', inset: 0, zIndex: 1, 
-          opacity: 0, visibility: 'hidden'
-        }}>
-          <ScreenThree />
+        <div ref={screenThreeWrapperRef} style={{ position: 'absolute', inset: 0, zIndex: 1, opacity: 0, visibility: 'hidden' }}>
+          <ScreenThree startTextAnimation={isScreenThreeActive} />
         </div>
 
         {/* Screen 2 */}
         <div ref={screenTwoWrapperRef} style={{ position: 'absolute', inset: 0, zIndex: 3 }}>
-          <ScreenTwo />
+          <ScreenTwo startTextAnimation={isScreenOneDone} />
         </div>
 
-        <div 
-          style={{
-            position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-            width: '90px', height: '90px', zIndex: 50, pointerEvents: 'none',
-          }}
-        >
-          <img 
-            ref={flyingFlowerRef}
-            src="/img/common/flower.webp" 
-            alt="Flying Flower" 
-            style={{ 
-              position: 'absolute', top: '-15px', right: '-15px', width: '50px', height: '50px', 
-              transformOrigin: 'center center',
-              willChange: 'transform', 
-              transform: 'translateZ(0)', 
-              backfaceVisibility: 'hidden' 
-            }}
-          />
+        {/* Flying Flower */}
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '90px', height: '90px', zIndex: 50, pointerEvents: 'none' }}>
+          <img ref={flyingFlowerRef} src="/img/common/flower.webp" alt="Flying Flower" style={{ position: 'absolute', top: '-15px', right: '-15px', width: '50px', height: '50px', transformOrigin: 'center center', willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }} />
         </div>
 
         {/* Screen 1 */}

@@ -3,31 +3,61 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-export default function ScreenSix() {
-  const containerRef = useRef(null);
+interface ScreenSixProps {
+  startTextAnimation?: boolean;
+}
+
+export default function ScreenSix({ startTextAnimation = false }: ScreenSixProps) {
+  const containerRef = useRef<HTMLElement>(null);
+
+  const splitText = (text: string) => {
+    return text.split('').map((char, index) => (
+      <span 
+        key={index} 
+        className="char-s6" 
+        style={{ opacity: 0, transform: 'translateY(15px)', display: 'inline-block' }}
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
 
   useGSAP(() => {
-    // 1. Invitation Card Floating Effect (Card eka poddak udata pallahata yanawa)
+    // 1. Invitation Card Floating Effect
     gsap.to('.tableCard', {
-      y: -6,             // Poddak udata yanawa
-      scale: 1.02,       // Poddak loku wenawa
-      rotation: 1,       // Himiita podi angle ekakata harenawa
-      duration: 2.5,     // Speed eka
-      repeat: -1,        // Digatama play wenna
-      yoyo: true,        // Apahu mulata enna
+      y: -6,
+      scale: 1.02,
+      rotation: 1,
+      duration: 2.5,
+      repeat: -1,
+      yoyo: true,
       ease: 'sine.inOut'
     });
 
-    // 2. Text Glow Pulsing Effect (Pitipasse eliya wadi/adu wenawa magical feel ekakata)
+    // 2. Text Glow Pulsing Effect
     gsap.to('.textGlow', {
-      opacity: 0.5,      // Eliya adu wenawa
-      scale: 1.05,       // Poddak spread wenawa
+      opacity: 0.5,
+      scale: 1.05,
       duration: 3,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut'
     });
   }, { scope: containerRef });
+
+  // Text Animation
+  useGSAP(() => {
+    if (startTextAnimation) {
+      gsap.to('.char-s6', {
+        opacity: 1,
+        y: 0,
+        duration: 1.5,
+        ease: 'power3.out',
+        stagger: 0.06,
+        delay: 0.2
+      });
+    }
+  }, [startTextAnimation]);
 
   return (
     <section ref={containerRef} className="screenSix">
@@ -49,13 +79,13 @@ export default function ScreenSix() {
         
         <div className="textContent">
           <p className="topSmallText">
-            Of all the people<br />
-            in the world,<br />
-            there's someone they<br />
-            couldn't imagine<br />
-            this moment without
+            {splitText("Of all the people")}<br />
+            {splitText("in the world,")}<br />
+            {splitText("there's someone they")}<br />
+            {splitText("couldn't imagine")}<br />
+            {splitText("this moment without")}
           </p>
-          <h2 className="scriptText">you</h2>
+          <h2 className="scriptText">{splitText("you")}</h2>
         </div>
       </div>
 
