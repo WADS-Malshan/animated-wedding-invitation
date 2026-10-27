@@ -26,6 +26,9 @@ export default function Home() {
   const screenSixWrapperRef = useRef<HTMLDivElement>(null); 
   const screenSevenWrapperRef = useRef<HTMLDivElement>(null); 
   
+  // --- Loading State Eka ---
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  
   const [isScreenOneDone, setIsScreenOneDone] = useState(false);
   const [isScreenThreeActive, setIsScreenThreeActive] = useState(false); 
   const [isScreenFourActive, setIsScreenFourActive] = useState(false); 
@@ -34,6 +37,38 @@ export default function Home() {
   const [isDesktopView, setIsDesktopView] = useState(true);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
+
+  // --- Preloader Logic ---
+  useEffect(() => {
+    // Mula screens wala thiyena loku images tika methana danna
+    const imageUrls = [
+      '/img/1/left.webp',
+      '/img/1/right.webp',
+      '/img/1/dt-left.webp',
+      '/img/1/dt-right.webp',
+      '/img/2/background.webp',
+      '/img/2/dt-background.webp',
+      '/img/2/couple.webp',
+      '/img/common/flower.webp'
+    ];
+
+    let loadedCount = 0;
+
+    const imageLoader = () => {
+      loadedCount++;
+      if (loadedCount === imageUrls.length) {
+        // Okkoma load unama 0.5s walin loading eka ain karanawa
+        setTimeout(() => setImagesLoaded(true), 500);
+      }
+    };
+
+    imageUrls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = imageLoader;
+      img.onerror = imageLoader; // Error awath stuck wenna epa kiyala
+    });
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setIsDesktopView(window.innerWidth >= 992);
@@ -169,7 +204,7 @@ export default function Home() {
         attr: { height: 1 }, 
         stagger: 0.05, 
         ease: "power2.inOut",
-        onStart: () => setIsScreenFourActive(true) // Mask expand weddi text on wenawa
+        onStart: () => setIsScreenFourActive(true) 
       }); 
 
       tl.to({}, { duration: 0.2 }); 
@@ -180,7 +215,7 @@ export default function Home() {
         attr: { y: 0, height: 1 }, 
         stagger: 0.05, 
         ease: "power2.inOut",
-        onStart: () => setIsScreenFiveActive(true) // Mask expand weddi text on wenawa
+        onStart: () => setIsScreenFiveActive(true) 
       }); 
       
       tl.to({}, { duration: 0.2 }); 
@@ -194,7 +229,7 @@ export default function Home() {
           from: "center" 
         }, 
         ease: "power2.inOut",
-        onStart: () => setIsScreenSixActive(true) // Mask expand weddi text on wenawa
+        onStart: () => setIsScreenSixActive(true) 
       }); 
 
       tl.to({}, { duration: 0.2 }); 
@@ -225,6 +260,30 @@ export default function Home() {
   }, [isScreenOneDone]);
 
   const leavesArray = Array.from({ length: 12 });
+
+  // --- Loader Screen ---
+  if (!imagesLoaded) {
+    return (
+      <div style={{ 
+        width: '100vw', 
+        height: '100vh', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: '#e5d9c5', // Oyage background color eka danna
+        color: '#ab573e', // Text color eka
+        fontFamily: 'serif',
+        fontSize: '20px'
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+          <img src="/img/common/flower.webp" alt="Loading" style={{ width: '50px', animation: 'spin 3s linear infinite' }} />
+        </div>
+        <style>{`
+          @keyframes spin { 100% { transform: rotate(360deg); } }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <>

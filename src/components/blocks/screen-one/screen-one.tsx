@@ -19,20 +19,17 @@ export default function ScreenOne({ onAnimateFlower }: ScreenOneProps) {
   const handleOpen = contextSafe(() => {
     const tl = gsap.timeline();
 
-    // 1. Envelope button gayab wena eka
     tl.to(envelopeRef.current, {
       scale: 0,
       opacity: 0,
       duration: 0.3,
     }, 0);
 
-    // 2. Background fade out wela yatin thiyena Screen 2 penna gannawa
     tl.to(bgRef.current, {
       opacity: 0,
       duration: 0.8
     }, 0);
 
-    // 3. Mal depaththata arenawa
     tl.to(leftFlowersRef.current, {
       xPercent: -100,
       duration: 1.5,
@@ -50,7 +47,6 @@ export default function ScreenOne({ onAnimateFlower }: ScreenOneProps) {
       duration: 0.1
     }, "-=0.2");
 
-    // Home eke thiyena flower animation eka trigger karanawa
     onAnimateFlower();
   });
 
@@ -60,15 +56,16 @@ export default function ScreenOne({ onAnimateFlower }: ScreenOneProps) {
 
       <picture ref={leftFlowersRef} className="leftFlowers">
         <source media="(min-width: 992px)" srcSet="/img/1/dt-left.webp" />
-        <img src="/img/1/left.webp" alt="Left Flowers" />
+        {/* fetchPriority ekathu kara */}
+        <img src="/img/1/left.webp" alt="Left Flowers" fetchPriority="high" /> 
       </picture>
       
       <picture ref={rightFlowersRef} className="rightFlowers">
         <source media="(min-width: 992px)" srcSet="/img/1/dt-right.webp" />
-        <img src="/img/1/right.webp" alt="Right Flowers" />
+        {/* fetchPriority ekathu kara */}
+        <img src="/img/1/right.webp" alt="Right Flowers" fetchPriority="high" />
       </picture>
 
-      {/* Envelop button eka center karanawa */}
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 20 }}>
         <button 
           ref={envelopeRef} 

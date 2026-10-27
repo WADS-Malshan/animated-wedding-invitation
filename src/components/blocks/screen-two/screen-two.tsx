@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-// Prop eka define karanawa
 interface ScreenTwoProps {
   startTextAnimation?: boolean;
 }
@@ -24,7 +23,6 @@ export default function ScreenTwo({ startTextAnimation = false }: ScreenTwoProps
   };
 
   useGSAP(() => {
-    // Continuous animations (Flowers & Couple) - mewa digatama play wenawa
     gsap.to('.cornerFlower', {
       rotation: 6,
       y: -8,
@@ -46,7 +44,6 @@ export default function ScreenTwo({ startTextAnimation = false }: ScreenTwoProps
     });
   }, { scope: containerRef });
 
-  // Text animation eka trigger wenne startTextAnimation true unama witharai
   useGSAP(() => {
     if (startTextAnimation) {
       gsap.to('.char', {
@@ -55,21 +52,23 @@ export default function ScreenTwo({ startTextAnimation = false }: ScreenTwoProps
         duration: 1.5,
         ease: 'power3.out',
         stagger: 0.08,
-        delay: 0.5 // Screen 1 fade out wenna podi delay ekak (0.5s)
+        delay: 0.5 
       });
     }
-  }, [startTextAnimation]); // Prop eka change weddi meka run wenawa
+  }, [startTextAnimation]);
 
   return (
     <section ref={containerRef} className="screenTwo">
       
       <picture className="backgroundLayer">
         <source media="(min-width: 992px)" srcSet="/img/2/dt-background.webp" />
-        <img src="/img/2/background.webp" alt="Romantic Background" />
+        {/* fetchPriority ekathu kara */}
+        <img src="/img/2/background.webp" alt="Romantic Background" fetchPriority="high" />
       </picture>
 
       <div className="coupleWrapper">
-        <img src="/img/2/couple.webp" alt="Couple" className="coupleImg" />
+        {/* fetchPriority ekathu kara */}
+        <img src="/img/2/couple.webp" alt="Couple" className="coupleImg" fetchPriority="high" />
       </div>
 
       <img src="/img/2/top-left.webp" alt="Top Left Flower" className="cornerFlower topLeft" />
