@@ -1,14 +1,16 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 interface ScreenTwoProps {
   startTextAnimation?: boolean;
+  onVoiceEnd?: () => void;
 }
 
 export default function ScreenTwo({
   startTextAnimation = false,
+  onVoiceEnd,
 }: ScreenTwoProps) {
   const containerRef = useRef(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -54,10 +56,8 @@ export default function ScreenTwo({
     { scope: containerRef },
   );
 
-  // Text Animation & Voice Sync
   useGSAP(() => {
     if (startTextAnimation) {
-      // 1. Text GSAP Animation
       gsap.to(".char", {
         opacity: 1,
         y: 0,
@@ -67,7 +67,6 @@ export default function ScreenTwo({
         delay: 0.2,
       });
 
-      // 2. Play Voice Clip Sync
       if (voiceAudioRef.current) {
         voiceAudioRef.current.currentTime = 0;
         voiceAudioRef.current.play().catch((err) => {
@@ -79,8 +78,12 @@ export default function ScreenTwo({
 
   return (
     <section ref={containerRef} className="screenTwo">
-      {/* Voice Audio Track */}
-      <audio ref={voiceAudioRef} src="/audio/02.mp3" preload="auto" />
+      <audio
+        ref={voiceAudioRef}
+        src="/audio/02.mp3"
+        preload="auto"
+        onEnded={onVoiceEnd}
+      />
 
       <picture className="backgroundLayer">
         <source media="(min-width: 992px)" srcSet="/img/2/dt-background.webp" />

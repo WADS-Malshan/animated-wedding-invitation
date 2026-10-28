@@ -5,10 +5,12 @@ import { useGSAP } from "@gsap/react";
 
 interface ScreenSixProps {
   startTextAnimation?: boolean;
+  onVoiceEnd?: () => void;
 }
 
 export default function ScreenSix({
   startTextAnimation = false,
+  onVoiceEnd,
 }: ScreenSixProps) {
   const containerRef = useRef<HTMLElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -31,7 +33,6 @@ export default function ScreenSix({
 
   useGSAP(
     () => {
-      // 1. Invitation Card Floating Effect
       gsap.to(".tableCard", {
         y: -6,
         scale: 1.02,
@@ -42,7 +43,6 @@ export default function ScreenSix({
         ease: "sine.inOut",
       });
 
-      // 2. Text Glow Pulsing Effect
       gsap.to(".textGlow", {
         opacity: 0.5,
         scale: 1.05,
@@ -55,10 +55,8 @@ export default function ScreenSix({
     { scope: containerRef },
   );
 
-  // Text Animation & Voice Sync
   useGSAP(() => {
     if (startTextAnimation) {
-      // 1. Text Animation
       gsap.to(".char-s6", {
         opacity: 1,
         y: 0,
@@ -68,7 +66,6 @@ export default function ScreenSix({
         delay: 0.1,
       });
 
-      // 2. Play Voice Clip
       if (voiceAudioRef.current) {
         voiceAudioRef.current.currentTime = 0;
         voiceAudioRef.current.play().catch((err) => {
@@ -80,16 +77,18 @@ export default function ScreenSix({
 
   return (
     <section ref={containerRef} className="screenSix">
-      {/* Voice Audio Track */}
-      <audio ref={voiceAudioRef} src="/audio/06.mp3" preload="auto" />
+      <audio
+        ref={voiceAudioRef}
+        src="/audio/06.mp3"
+        preload="auto"
+        onEnded={onVoiceEnd}
+      />
 
-      {/* Background Layer */}
       <picture className="backgroundLayer">
         <source media="(min-width: 992px)" srcSet="/img/6/dt-background.webp" />
         <img src="/img/6/background.webp" alt="Couple at table" />
       </picture>
 
-      {/* Invitation Card on Table */}
       <div className="cardWrapper">
         <img
           src="/img/6/invitaion-on-table.png"
@@ -98,7 +97,6 @@ export default function ScreenSix({
         />
       </div>
 
-      {/* Typography Section */}
       <div className="textWrapper">
         <img src="/img/6/text back.webp" className="textGlow" alt="Text Glow" />
 

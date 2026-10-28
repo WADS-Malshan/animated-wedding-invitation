@@ -5,10 +5,12 @@ import { useGSAP } from "@gsap/react";
 
 interface ScreenThreeProps {
   startTextAnimation?: boolean;
+  onVoiceEnd?: () => void;
 }
 
 export default function ScreenThree({
   startTextAnimation = false,
+  onVoiceEnd,
 }: ScreenThreeProps) {
   const containerRef = useRef<HTMLElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -31,7 +33,6 @@ export default function ScreenThree({
 
   useGSAP(
     () => {
-      // Continuous Animations
       gsap.to(".cornerFlower", {
         rotation: 5,
         y: -6,
@@ -55,20 +56,17 @@ export default function ScreenThree({
     { scope: containerRef },
   );
 
-  // Text Animation triggered by Home.tsx state & Voice Sync
   useGSAP(() => {
     if (startTextAnimation) {
-      // 1. Text Animation
       gsap.to(".char-s3", {
         opacity: 1,
         y: 0,
         duration: 0.8,
         ease: "power3.out",
         stagger: 0.02,
-        delay: 0.1, // Podi delay ekak dunna mal tika fade wela enna
+        delay: 0.1,
       });
 
-      // 2. Play Voice Clip
       if (voiceAudioRef.current) {
         voiceAudioRef.current.currentTime = 0;
         voiceAudioRef.current.play().catch((err) => {
@@ -80,8 +78,12 @@ export default function ScreenThree({
 
   return (
     <section ref={containerRef} className="screenThree">
-      {/* Voice Audio Track */}
-      <audio ref={voiceAudioRef} src="/audio/03.mp3" preload="auto" />
+      <audio
+        ref={voiceAudioRef}
+        src="/audio/03.mp3"
+        preload="auto"
+        onEnded={onVoiceEnd}
+      />
 
       <picture className="backgroundLayer">
         <source media="(min-width: 992px)" srcSet="/img/3/dt-background.webp" />

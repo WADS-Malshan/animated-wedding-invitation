@@ -12,121 +12,119 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 5; 
+  z-index: 5;
   .backgroundLayer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-
-  img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
   }
-}
 
-/* Lamps */
-.lampsWrapper {
-  position: absolute;
-  top: -2%;
-  left: 5%;
-  z-index: 4;
-  display: flex;
-  gap: 15px;
-  align-items: flex-start;
-  pointer-events: none;
-}
-
-.lamp {
-  object-fit: contain;
-}
-
-.lampL { 
-  width: 75px; 
-  @include tablet-landscape{
-    width: 125px; 
-    margin-top: 100px;
+  /* Lamps */
+  .lampsWrapper {
+    position: absolute;
+    top: -2%;
+    left: 5%;
+    z-index: 4;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    pointer-events: none;
   }
-}
-.lampM {
-  width: 55px;
-  margin-top: 30px;
-  @include tablet-landscape{
-    width: 90px; 
-    margin-top: 80px;
+
+  .lamp {
+    object-fit: contain;
   }
-}
-.lampS { 
-  width: 40px;
-  margin-top: 15px; 
-  @include tablet-landscape{
-    width: 40px; 
-    margin-top: 60px;
+
+  .lampL {
+    width: 75px;
+    @include tablet-landscape {
+      width: 125px;
+      margin-top: 100px;
+    }
   }
-}
-
-/* Typography */
-.textWrapper {
-  position: relative;
-  z-index: 10; 
-  margin-top: 13vh;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.textGlow {
-  position: absolute;
-  width: 180%;
-  max-width: 450px;
-  opacity: 0.9;
-  z-index: -1;
-  pointer-events: none;
-  top: -12vh;
-  @include tablet-landscape{
-    top: -12vh;
-    width: 220%;
-    max-width: 550px;
+  .lampM {
+    width: 55px;
+    margin-top: 30px;
+    @include tablet-landscape {
+      width: 90px;
+      margin-top: 80px;
+    }
   }
-}
-
-.textContent {
-  color: #5c2c16; 
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Text tika madata ganna */
-  text-align: center;  /* Text tika madata ganna */
-}
-
-.topSmallText, .bottomSmallText {
-  font-weight: 600;
-  margin: 0;
-  @include textStyle(
-    $primary-font-family,
-    13px,
-    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
-    0,
-    #252323
-  );
-  &.new{
+  .lampS {
+    width: 40px;
     margin-top: 15px;
+    @include tablet-landscape {
+      width: 40px;
+      margin-top: 60px;
+    }
+  }
+
+  /* Typography */
+  .textWrapper {
+    position: relative;
+    z-index: 10;
+    margin-top: 13vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .textGlow {
+    position: absolute;
+    width: 180%;
+    max-width: 450px;
+    opacity: 0.9;
+    z-index: -1;
+    pointer-events: none;
+    top: -12vh;
+    @include tablet-landscape {
+      top: -12vh;
+      width: 220%;
+      max-width: 550px;
+    }
+  }
+
+  .textContent {
+    color: #5c2c16;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Text tika madata ganna */
+    text-align: center; /* Text tika madata ganna */
+  }
+
+  .topSmallText,
+  .bottomSmallText {
+    font-weight: 600;
+    margin: 0;
+    @include textStyle(
+      $primary-font-family,
+      14px,
+      18px,
+      /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
+      #252323
+    );
+    &.new {
+      margin-top: 15px;
+    }
+  }
+
+  .scriptText {
+    font-family: $secondary-font-family;
+    font-size: 3.5rem;
+    font-weight: bold; /* Image eke script font eka godak bold na */
+    color: #903c2a;
+    margin: 15px 0;
+    line-height: 1.1;
   }
 }
-
-.scriptText {
-  font-family: $secondary-font-family; 
-  font-size: 3.5rem;
-  font-weight: bold; /* Image eke script font eka godak bold na */
-  color: #903c2a; 
-  margin: 15px 0;
-  line-height: 1.1;
-}
-
-
-}
-

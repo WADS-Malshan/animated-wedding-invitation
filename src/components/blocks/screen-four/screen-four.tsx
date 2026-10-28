@@ -5,10 +5,12 @@ import { useGSAP } from "@gsap/react";
 
 interface ScreenFourProps {
   startTextAnimation?: boolean;
+  onVoiceEnd?: () => void;
 }
 
 export default function ScreenFour({
   startTextAnimation = false,
+  onVoiceEnd,
 }: ScreenFourProps) {
   const containerRef = useRef<HTMLElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -31,7 +33,6 @@ export default function ScreenFour({
 
   useGSAP(
     () => {
-      // Hanging Lamps Premium Swing Animation
       gsap.to(".lamp", {
         rotation: 5,
         transformOrigin: "top center",
@@ -48,20 +49,17 @@ export default function ScreenFour({
     { scope: containerRef },
   );
 
-  // Text Animation & Voice Sync
   useGSAP(() => {
     if (startTextAnimation) {
-      // 1. Text Animation
       gsap.to(".char-s4", {
         opacity: 1,
         y: 0,
         duration: 0.8,
         ease: "power3.out",
-        stagger: 0.01, // Tikak fast kara text wadi nisa
+        stagger: 0.01,
         delay: 0.1,
       });
 
-      // 2. Play Voice Clip
       if (voiceAudioRef.current) {
         voiceAudioRef.current.currentTime = 0;
         voiceAudioRef.current.play().catch((err) => {
@@ -73,23 +71,24 @@ export default function ScreenFour({
 
   return (
     <section ref={containerRef} className="screenFour">
-      {/* Voice Audio Track */}
-      <audio ref={voiceAudioRef} src="/audio/04.mp3" preload="auto" />
+      <audio
+        ref={voiceAudioRef}
+        src="/audio/04.mp3"
+        preload="auto"
+        onEnded={onVoiceEnd}
+      />
 
-      {/* Background Image */}
       <picture className="backgroundLayer">
         <source media="(min-width: 992px)" srcSet="/img/4/dt-background.webp" />
         <img src="/img/4/background.webp" alt="Dinner Background" />
       </picture>
 
-      {/* Hanging Lamps */}
       <div className="lampsWrapper">
         <img src="/img/4/lamp-l.png" alt="Large Lamp" className="lamp lampL" />
         <img src="/img/4/lamp-m.png" alt="Medium Lamp" className="lamp lampM" />
         <img src="/img/4/lamp-s.png" alt="Small Lamp" className="lamp lampS" />
       </div>
 
-      {/* Typography Section */}
       <div className="textWrapper">
         <img src="/img/4/text-back.webp" className="textGlow" alt="Text Glow" />
 

@@ -13,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 8; 
+  z-index: 8;
   background-color: #e5d9c5; /* Backup background color */
 }
 
@@ -40,17 +40,29 @@
   width: 35vw;
   max-width: 200px;
   pointer-events: none;
-  
+
   @media (min-width: 992px) {
     width: 15vw;
     max-width: 250px;
   }
 }
 
-.topLeft { top: 0; left: 0; }
-.topRight { top: 0; right: 0; }
-.bottomLeft { bottom: 0; left: 0; }
-.bottomRight { bottom: 0; right: 0; }
+.topLeft {
+  top: 0;
+  left: 0;
+}
+.topRight {
+  top: 0;
+  right: 0;
+}
+.bottomLeft {
+  bottom: 0;
+  left: 0;
+}
+.bottomRight {
+  bottom: 0;
+  right: 0;
+}
 
 /* Invitation Content */
 .invitationContent {
@@ -65,9 +77,13 @@
   align-items: center;
 }
 
-.heart-icon{
-  img{
+.heart-icon {
+  display: inline-block;
+  animation: heartBeat 1.4s infinite ease-in-out;
+
+  img {
     width: 60px;
+    height: auto;
   }
 }
 
@@ -77,7 +93,7 @@
   align-items: center;
 }
 
-.devider-icon{
+.devider-icon {
   margin: 10px 0;
 }
 
@@ -88,20 +104,20 @@
 }
 
 .scriptText {
-  font-family: $secondary-font-family; 
+  font-family: $secondary-font-family;
   font-size: 3.5rem;
   font-weight: 400;
   color: #ab573e; /* Rusty red/brown color */
   margin: -10px 0;
   line-height: 1.2;
-  &.small{
+  &.small {
     font-size: 2.5rem;
     margin: 8px 0;
   }
 }
 
 .andText {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 1rem;
   font-style: italic;
   color: #ab573e;
@@ -120,19 +136,19 @@
   @include textStyle(
     $primary-font-family,
     13px,
-    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
-    0,
+    1.5,
+    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
     #252323
   );
 }
 
-.invite-name{
+.invite-name {
   margin: 12px 0;
   @include textStyle(
     $primary-font-family,
     17px,
-    17px, /* Line height eka poddak wadi kara line breaks clear wenna */
-    0,
+    17px,
+    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
     #252323
   );
 }
@@ -153,7 +169,7 @@
 
 .watermark {
   position: absolute;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 7rem;
   font-weight: 700;
   color: rgba(200, 180, 150, 0.5); /* Faint watermark color */
@@ -165,11 +181,11 @@
 }
 
 .dateText {
- @include textStyle(
+  @include textStyle(
     $primary-font-family,
     13px,
-    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
-    0,
+    1.5,
+    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
     #252323
   );
   margin: 0;
@@ -188,13 +204,12 @@
 /* Location */
 .locationText {
   text-transform: uppercase;
-  margin-top: 20px;
   font-weight: bold;
   @include textStyle(
     $primary-font-family,
     13px,
-    1.5, /* Line height eka poddak wadi kara line breaks clear wenna */
-    0,
+    1.5,
+    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
     #252323
   );
 }
@@ -208,11 +223,11 @@
 
 /* --- RSVP Button --- */
 .rsvpButton {
-  margin-top: 30px;
+  margin-top: 15px;
   background-color: #252323; // Dark color to match the text
   color: #fff;
   border: none;
-  padding: 12px 35px;
+  padding: 18px 35px;
   font-family: $primary-font-family;
   font-size: 14px;
   font-weight: bold;
@@ -222,7 +237,7 @@
   text-transform: uppercase;
   transition: all 0.3s ease;
   animation: pulse 2s infinite; // Podi pulse effect ekak
-  
+
   &:hover {
     background-color: #ab573e; // Hover weddi theme color ekata enawa
     transform: translateY(-2px);
@@ -230,9 +245,15 @@
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(37, 35, 35, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(37, 35, 35, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(37, 35, 35, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 35, 35, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(37, 35, 35, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 35, 35, 0);
+  }
 }
 
 /* --- RSVP Modal Styles --- */
@@ -252,18 +273,20 @@
 }
 
 .modalContent {
-  background-color: #f7f1e6; // Card eke background color eka
-  padding: 20px;
+  background-color: #f7f1e6;
+  padding: 30px 20px; /* <-- Padding eka wadi kara */
   border-radius: 15px;
   width: 90%;
   max-width: 400px;
   position: relative;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(171, 87, 62, 0.2);
   animation: slideUp 0.4s ease;
-  @include tablet-landscape{
-    padding: 30px 20px;
+  box-sizing: border-box; /* <-- Meka aniwaren danna */
+
+  @include tablet-landscape {
+    padding: 50px 40px;
   }
 }
 
@@ -277,7 +300,7 @@
   color: #ab573e;
   cursor: pointer;
   transition: transform 0.2s ease;
-  
+
   &:hover {
     transform: scale(1.2);
   }
@@ -305,17 +328,20 @@
   flex-direction: column;
   gap: 15px;
 
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #d4c6b3;
     background-color: #fff;
     border-radius: 8px;
     font-family: $primary-font-family;
-    font-size: 14px;
+    font-size: 12px;
     color: #252323;
     outline: none;
     transition: border-color 0.3s ease;
+    box-sizing: border-box;
 
     &:focus {
       border-color: #ab573e;
@@ -377,18 +403,54 @@
 }
 
 @keyframes scaleIn {
-  0% { transform: scale(0); opacity: 0; }
-  80% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.12);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.12);
+  }
+  70% {
+    transform: scale(1);
+  }
 }

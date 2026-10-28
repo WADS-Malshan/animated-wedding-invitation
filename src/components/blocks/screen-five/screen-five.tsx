@@ -5,10 +5,12 @@ import { useGSAP } from "@gsap/react";
 
 interface ScreenFiveProps {
   startTextAnimation?: boolean;
+  onVoiceEnd?: () => void;
 }
 
 export default function ScreenFive({
   startTextAnimation = false,
+  onVoiceEnd,
 }: ScreenFiveProps) {
   const containerRef = useRef<HTMLElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -31,7 +33,6 @@ export default function ScreenFive({
 
   useGSAP(
     () => {
-      // 1. Corner Flowers
       gsap.to(".cornerFlower", {
         rotation: 6,
         y: -7,
@@ -43,7 +44,6 @@ export default function ScreenFive({
         stagger: 0.35,
       });
 
-      // 2. Walking Couple Effect
       gsap.to(".walkingCoupleImg", {
         y: -8,
         scale: 1.01,
@@ -56,10 +56,8 @@ export default function ScreenFive({
     { scope: containerRef },
   );
 
-  // Text Animation & Voice Sync
   useGSAP(() => {
     if (startTextAnimation) {
-      // 1. Text Animation
       gsap.to(".char-s5", {
         opacity: 1,
         y: 0,
@@ -69,7 +67,6 @@ export default function ScreenFive({
         delay: 0.1,
       });
 
-      // 2. Play Voice Clip
       if (voiceAudioRef.current) {
         voiceAudioRef.current.currentTime = 0;
         voiceAudioRef.current.play().catch((err) => {
@@ -81,16 +78,18 @@ export default function ScreenFive({
 
   return (
     <section ref={containerRef} className="screenFive">
-      {/* Voice Audio Track */}
-      <audio ref={voiceAudioRef} src="/audio/05.mp3" preload="auto" />
+      <audio
+        ref={voiceAudioRef}
+        src="/audio/05.mp3"
+        preload="auto"
+        onEnded={onVoiceEnd}
+      />
 
-      {/* Background Layer */}
       <picture className="backgroundLayer">
         <source media="(min-width: 992px)" srcSet="/img/5/dt-background.webp" />
         <img src="/img/5/background.webp" alt="Sunset Path Background" />
       </picture>
 
-      {/* Typography Section */}
       <div className="textWrapper">
         <img src="/img/4/text-back.webp" className="textGlow" alt="Text Glow" />
         <div className="textContent">
@@ -109,7 +108,6 @@ export default function ScreenFive({
         </div>
       </div>
 
-      {/* Couple Walking */}
       <div className="walkingCoupleWrapper">
         <img
           src="/img/5/couple.webp"
@@ -118,7 +116,6 @@ export default function ScreenFive({
         />
       </div>
 
-      {/* Corner Flowers */}
       <img
         src="/img/5/top-left.webp"
         alt="Top Left Flower"
