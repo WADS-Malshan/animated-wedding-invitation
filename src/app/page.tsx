@@ -1,7 +1,6 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import ScreenOne from "@/components/blocks/screen-one";
 import ScreenTwo from "@/components/blocks/screen-two";
@@ -10,10 +9,6 @@ import ScreenFour from "@/components/blocks/screen-four";
 import ScreenFive from "@/components/blocks/screen-five";
 import ScreenSix from "@/components/blocks/screen-six";
 import ScreenSeven from "@/components/blocks/screen-seven";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,24 +24,36 @@ export default function Home() {
   // --- Audio Ref ---
   const bgAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // --- Loading State Eka ---
+  // --- States ---
   const [imagesLoaded, setImagesLoaded] = useState(false);
-
   const [isScreenOneDone, setIsScreenOneDone] = useState(false);
+
+  // Voice state eka track karanna
+  const [isVoiceDone, setIsVoiceDone] = useState(false);
+
+  const [currentScreen, setCurrentScreen] = useState(1);
+  const currentScreenRef = useRef(1);
+
   const [isScreenThreeActive, setIsScreenThreeActive] = useState(false);
   const [isScreenFourActive, setIsScreenFourActive] = useState(false);
   const [isScreenFiveActive, setIsScreenFiveActive] = useState(false);
   const [isScreenSixActive, setIsScreenSixActive] = useState(false);
+
   const [isDesktopView, setIsDesktopView] = useState(true);
+
+  const isAnimating = useRef(false);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
-  // --- Preloader Logic (Images + Audio) ---
   useEffect(() => {
-    // Audio Object eka hadanawa
     bgAudioRef.current = new Audio("/audio/bgm.mp3");
-    bgAudioRef.current.loop = true; // Digatama play wenna
-    bgAudioRef.current.volume = 0.4; // Volume eka poddak adu kara backgound nisa
+    // Voice eka iwara wenna oni nisa loop = true eka ain kara
+    bgAudioRef.current.volume = 0.4;
+
+    // Voice eka iwara unama state eka update karanawa
+    bgAudioRef.current.onended = () => {
+      setIsVoiceDone(true);
+    };
 
     const imageUrls = [
       "/img/1/left.webp",
@@ -60,25 +67,22 @@ export default function Home() {
     ];
 
     let loadedCount = 0;
-    const totalAssets = imageUrls.length + 1; // Images tika + Audio eka
+    const totalAssets = imageUrls.length + 1;
 
     const assetLoader = () => {
       loadedCount++;
       if (loadedCount === totalAssets) {
-        // Okkoma load unama 0.5s walin loading eka ain karanawa
         setTimeout(() => setImagesLoaded(true), 500);
       }
     };
 
-    // Images load kirima
     imageUrls.forEach((url) => {
       const img = new Image();
       img.src = url;
       img.onload = assetLoader;
-      img.onerror = assetLoader; // Error awath stuck wenna epa kiyala
+      img.onerror = assetLoader;
     });
 
-    // Audio load kirima
     if (bgAudioRef.current) {
       bgAudioRef.current.oncanplaythrough = assetLoader;
       bgAudioRef.current.onerror = assetLoader;
@@ -93,71 +97,67 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (isScreenOneDone) {
-      document.body.style.overflowX = "hidden";
-      document.body.style.overflowY = "auto";
-      document.documentElement.style.scrollbarWidth = "none";
-    } else {
-      document.body.style.overflow = "hidden";
-    }
-
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
-      document.documentElement.style.scrollbarWidth = "auto";
     };
-  }, [isScreenOneDone]);
+  }, []);
 
   const handleFlowerAnimation = contextSafe(() => {
-    // --- Start BGM Music ---
+    if (isAnimating.current) return;
+    isAnimating.current = true;
+
     if (bgAudioRef.current) {
       bgAudioRef.current
         .play()
         .catch((err) => console.log("Audio play error:", err));
     }
 
-    let mm = gsap.matchMedia();
+    const isDesktop = window.innerWidth >= 992;
+    const targetX = isDesktop ? "-2vw" : "-10vw";
+    const targetY = isDesktop ? "-3vh" : "0vh";
 
-    mm.add(
-      {
-        isDesktop: "(min-width: 992px)",
-        isMobile: "(max-width: 991px)",
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setIsScreenOneDone(true);
+        setCurrentScreen(2);
+        currentScreenRef.current = 2;
+        isAnimating.current = false;
       },
-      (context) => {
-        let { isDesktop } = context.conditions as { isDesktop: boolean };
-        const targetX = isDesktop ? "-2vw" : "-10vw";
-        const targetY = isDesktop ? "-3vh" : "0vh";
+    });
 
-        if (flyingFlowerRef.current) {
-          gsap.to(flyingFlowerRef.current, {
-            x: targetX,
-            y: targetY,
-            rotation: 360,
-            scale: 0.6,
-            duration: 1.5,
-            force3D: true,
-            ease: "power2.inOut",
-            onComplete: () => {
-              setIsScreenOneDone(true);
-            },
-          });
-        }
-      },
-    );
+    if (flyingFlowerRef.current) {
+      tl.to(
+        flyingFlowerRef.current,
+        {
+          x: targetX,
+          y: targetY,
+          rotation: 360,
+          scale: 0.6,
+          duration: 1.5,
+          force3D: true,
+          ease: "power2.inOut",
+        },
+        0,
+      );
+    }
 
     if (screenOneWrapperRef.current) {
-      gsap.to(screenOneWrapperRef.current, {
-        autoAlpha: 0,
-        duration: 0.5,
-        delay: 1.6,
-        display: "none",
-      });
+      tl.to(
+        screenOneWrapperRef.current,
+        {
+          autoAlpha: 0,
+          duration: 0.5,
+          display: "none",
+        },
+        1.2,
+      );
     }
   });
 
   useGSAP(() => {
     if (!isScreenOneDone) return;
 
-    // --- Falling Leaves Animation ---
     gsap.utils.toArray(".falling-leaf").forEach((leaf: any) => {
       gsap.set(leaf, {
         x: `random(0, ${window.innerWidth})`,
@@ -176,130 +176,174 @@ export default function Home() {
         delay: "random(0, 8)",
       });
     });
+  }, [isScreenOneDone]);
 
-    let mm = gsap.matchMedia();
+  const handleNextScreen = contextSafe(() => {
+    const screenNum = currentScreenRef.current;
 
-    mm.add(
-      {
-        isDesktop: "(min-width: 992px)",
-        isMobile: "(max-width: 991px)",
-      },
-      (context) => {
-        let { isDesktop } = context.conditions as { isDesktop: boolean };
+    // Voice eka iwara nathnam transition eka block karanawa (!isVoiceDone)
+    if (!isVoiceDone || isAnimating.current || screenNum >= 7) return;
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "+=500%",
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-          },
-        });
+    isAnimating.current = true;
 
-        const targetScale = isDesktop ? 100 : 35;
-        const stripClass4 = isDesktop ? ".strip4-desk" : ".strip4-mob";
-        const stripClass5 = isDesktop ? ".strip5-desk" : ".strip5-mob";
-        const stripClass6 = isDesktop ? ".strip6-desk" : ".strip6-mob";
+    const isDesktop = window.innerWidth >= 992;
 
-        // 1. Screen 1 -> Screen 2 -> Screen 3
-        tl.to(
-          flyingFlowerRef.current,
+    // Screen 2 -> 3
+    if (screenNum === 2) {
+      const targetScale = isDesktop ? 100 : 35;
+      const tl = gsap.timeline({
+        onComplete: () => {
+          isAnimating.current = false;
+          setCurrentScreen(3);
+          currentScreenRef.current = 3;
+        },
+      });
+
+      tl.to(
+        flyingFlowerRef.current,
+        {
+          x: "0vw",
+          y: "0vh",
+          rotation: "+=180",
+          scale: targetScale,
+          force3D: true,
+          duration: 1.5,
+          ease: "power2.inOut",
+        },
+        0,
+      )
+        .to(
+          screenTwoWrapperRef.current,
           {
-            x: "0vw",
-            y: "0vh",
-            rotation: "+=180",
-            scale: targetScale,
-            force3D: true,
+            autoAlpha: 0,
+            duration: 0.8,
             ease: "power1.inOut",
           },
-          0,
-        );
-
-        tl.to(screenTwoWrapperRef.current, { autoAlpha: 0, ease: "none" }, 0.4);
-
-        tl.to(
+          0.3,
+        )
+        .to(
           screenThreeWrapperRef.current,
           {
             autoAlpha: 1,
-            ease: "none",
+            visibility: "visible",
+            duration: 0.8,
+            ease: "power1.inOut",
             onStart: () => setIsScreenThreeActive(true),
           },
-          0.4,
-        );
-
-        tl.to(flyingFlowerRef.current, { autoAlpha: 0, ease: "none" }, 0.6);
-
-        tl.to({}, { duration: 0.2 });
-
-        // 3. Screen 3 -> Screen 4
-        tl.set(screenFourWrapperRef.current, { autoAlpha: 1 }, "+=0.1");
-        tl.to(stripClass4, {
-          attr: { height: 1 },
-          stagger: 0.05,
-          ease: "power2.inOut",
-          onStart: () => setIsScreenFourActive(true),
-        });
-
-        tl.to({}, { duration: 0.2 });
-
-        // 5. Screen 4 -> Screen 5
-        tl.set(screenFiveWrapperRef.current, { autoAlpha: 1 }, "+=0.1");
-        tl.to(stripClass5, {
-          attr: { y: 0, height: 1 },
-          stagger: 0.05,
-          ease: "power2.inOut",
-          onStart: () => setIsScreenFiveActive(true),
-        });
-
-        tl.to({}, { duration: 0.2 });
-
-        // 7. Screen 5 -> Screen 6
-        tl.set(screenSixWrapperRef.current, { autoAlpha: 1 }, "+=0.1");
-        tl.to(stripClass6, {
-          attr: { height: 1 },
-          stagger: {
-            each: 0.05,
-            from: "center",
+          0.3,
+        )
+        .to(
+          flyingFlowerRef.current,
+          {
+            autoAlpha: 0,
+            duration: 0.5,
           },
-          ease: "power2.inOut",
-          onStart: () => setIsScreenSixActive(true),
-        });
+          1.1,
+        );
+    }
+    // Screen 3 -> 4
+    else if (screenNum === 3) {
+      const stripClass = isDesktop ? ".strip4-desk" : ".strip4-mob";
 
-        tl.to({}, { duration: 0.2 });
+      gsap.set(screenFourWrapperRef.current, {
+        autoAlpha: 1,
+        visibility: "visible",
+      });
+      gsap.to(stripClass, {
+        attr: { height: 1 },
+        stagger: 0.05,
+        duration: 1.2,
+        ease: "power2.inOut",
+        onStart: () => setIsScreenFourActive(true),
+        onComplete: () => {
+          isAnimating.current = false;
+          setCurrentScreen(4);
+          currentScreenRef.current = 4;
+        },
+      });
+    }
+    // Screen 4 -> 5
+    else if (screenNum === 4) {
+      const stripClass = isDesktop ? ".strip5-desk" : ".strip5-mob";
 
-        // 9. Screen 6 -> Screen 7
-        const zoomX = isDesktop ? "-25vw" : "-30vw";
-        const zoomY = isDesktop ? "-30vh" : "-40vh";
-        const zoomOrigin = isDesktop ? "80% 75%" : "75% 80%";
+      gsap.set(screenFiveWrapperRef.current, {
+        autoAlpha: 1,
+        visibility: "visible",
+      });
+      gsap.to(stripClass, {
+        attr: { y: 0, height: 1 },
+        stagger: 0.05,
+        duration: 1.2,
+        ease: "power2.inOut",
+        onStart: () => setIsScreenFiveActive(true),
+        onComplete: () => {
+          isAnimating.current = false;
+          setCurrentScreen(5);
+          currentScreenRef.current = 5;
+        },
+      });
+    }
+    // Screen 5 -> 6
+    else if (screenNum === 5) {
+      const stripClass = isDesktop ? ".strip6-desk" : ".strip6-mob";
 
-        tl.to(screenSixWrapperRef.current, {
+      gsap.set(screenSixWrapperRef.current, {
+        autoAlpha: 1,
+        visibility: "visible",
+      });
+      gsap.to(stripClass, {
+        attr: { height: 1 },
+        stagger: { each: 0.05, from: "center" },
+        duration: 1.2,
+        ease: "power2.inOut",
+        onStart: () => setIsScreenSixActive(true),
+        onComplete: () => {
+          isAnimating.current = false;
+          setCurrentScreen(6);
+          currentScreenRef.current = 6;
+        },
+      });
+    }
+    // Screen 6 -> 7
+    else if (screenNum === 6) {
+      const zoomX = isDesktop ? "-25vw" : "-30vw";
+      const zoomY = isDesktop ? "-30vh" : "-40vh";
+      const zoomOrigin = isDesktop ? "80% 75%" : "75% 80%";
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          isAnimating.current = false;
+          setCurrentScreen(7);
+          currentScreenRef.current = 7;
+        },
+      });
+
+      tl.to(
+        screenSixWrapperRef.current,
+        {
           scale: 8,
           x: zoomX,
           y: zoomY,
           transformOrigin: zoomOrigin,
           ease: "power2.inOut",
           duration: 1.5,
-        });
-
-        // 10. Screen 7 Fade in
-        tl.to(
-          screenSevenWrapperRef.current,
-          {
-            autoAlpha: 1,
-            ease: "power1.inOut",
-            duration: 1,
-          },
-          "-=0.8",
-        );
-      },
-    );
-  }, [isScreenOneDone]);
+        },
+        0,
+      ).to(
+        screenSevenWrapperRef.current,
+        {
+          autoAlpha: 1,
+          visibility: "visible",
+          ease: "power1.inOut",
+          duration: 1,
+        },
+        0.8,
+      );
+    }
+  });
 
   const leavesArray = Array.from({ length: 12 });
 
-  // --- Loader Screen ---
   if (!imagesLoaded) {
     return (
       <div
@@ -309,8 +353,8 @@ export default function Home() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#e5d9c5", // Oyage background color eka danna
-          color: "#ab573e", // Text color eka
+          backgroundColor: "#e5d9c5",
+          color: "#ab573e",
           fontFamily: "serif",
           fontSize: "20px",
         }}
@@ -329,9 +373,7 @@ export default function Home() {
             style={{ width: "50px", animation: "spin 3s linear infinite" }}
           />
         </div>
-        <style>{`
-          @keyframes spin { 100% { transform: rotate(360deg); } }
-        `}</style>
+        <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
@@ -339,95 +381,48 @@ export default function Home() {
   return (
     <>
       <style>{`
-        ::-webkit-scrollbar {
-          display: none;
+        .next-screen-btn {
+          position: fixed;
+          bottom: 40px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1.5px solid rgba(255, 255, 255, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #ab573e;
+          cursor: pointer;
+          z-index: 100;
+          transition: all 0.3s ease;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+          animation: bounceArrow 2.5s infinite;
+        }
+        .next-screen-btn:hover {
+          background: rgba(255, 255, 255, 0.5);
+          transform: translateX(-50%) scale(1.1);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Voice eka iwara wenakam button eka fade wela click karanna bari wenna styling */
+        .next-screen-btn.disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+          animation: none;
+          box-shadow: none;
+        }
+        
+        @keyframes bounceArrow {
+          0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+          40% { transform: translateX(-50%) translateY(-8px); }
+          60% { transform: translateX(-50%) translateY(-4px); }
         }
       `}</style>
-
-      {/* SVG Masks Definitions */}
-      <svg
-        width="0"
-        height="0"
-        style={{ position: "absolute", pointerEvents: "none" }}
-      >
-        <defs>
-          {/* MOBILE MASKS */}
-          <clipPath id="screen4-mask-mob" clipPathUnits="objectBoundingBox">
-            {[0, 0.2, 0.4, 0.6, 0.8].map((x, i) => (
-              <rect
-                key={i}
-                className="strip4-mob"
-                x={x}
-                y="0"
-                width="0.2"
-                height="0"
-              />
-            ))}
-          </clipPath>
-          <clipPath id="screen5-mask-mob" clipPathUnits="objectBoundingBox">
-            {[0, 0.2, 0.4, 0.6, 0.8].map((x, i) => (
-              <rect
-                key={i}
-                className="strip5-mob"
-                x={x}
-                y="1"
-                width="0.2"
-                height="0"
-              />
-            ))}
-          </clipPath>
-          <clipPath id="screen6-mask-mob" clipPathUnits="objectBoundingBox">
-            {[0, 0.2, 0.4, 0.6, 0.8].map((x, i) => (
-              <rect
-                key={i}
-                className="strip6-mob"
-                x={x}
-                y="0"
-                width="0.2"
-                height="0"
-              />
-            ))}
-          </clipPath>
-
-          {/* DESKTOP MASKS */}
-          <clipPath id="screen4-mask-desk" clipPathUnits="objectBoundingBox">
-            {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((x, i) => (
-              <rect
-                key={i}
-                className="strip4-desk"
-                x={x}
-                y="0"
-                width="0.1"
-                height="0"
-              />
-            ))}
-          </clipPath>
-          <clipPath id="screen5-mask-desk" clipPathUnits="objectBoundingBox">
-            {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((x, i) => (
-              <rect
-                key={i}
-                className="strip5-desk"
-                x={x}
-                y="1"
-                width="0.1"
-                height="0"
-              />
-            ))}
-          </clipPath>
-          <clipPath id="screen6-mask-desk" clipPathUnits="objectBoundingBox">
-            {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((x, i) => (
-              <rect
-                key={i}
-                className="strip6-desk"
-                x={x}
-                y="0"
-                width="0.1"
-                height="0"
-              />
-            ))}
-          </clipPath>
-        </defs>
-      </svg>
 
       <main
         ref={containerRef}
@@ -439,6 +434,109 @@ export default function Home() {
           backgroundColor: "transparent",
         }}
       >
+        <svg
+          width="0"
+          height="0"
+          style={{ position: "absolute", pointerEvents: "none" }}
+        >
+          <defs>
+            <clipPath id="screen4-mask-mob" clipPathUnits="objectBoundingBox">
+              {[0, 0.2, 0.4, 0.6, 0.8].map((x, i) => (
+                <rect
+                  key={i}
+                  className="strip4-mob"
+                  x={x}
+                  y="0"
+                  width="0.2"
+                  height="0"
+                />
+              ))}
+            </clipPath>
+            <clipPath id="screen5-mask-mob" clipPathUnits="objectBoundingBox">
+              {[0, 0.2, 0.4, 0.6, 0.8].map((x, i) => (
+                <rect
+                  key={i}
+                  className="strip5-mob"
+                  x={x}
+                  y="1"
+                  width="0.2"
+                  height="0"
+                />
+              ))}
+            </clipPath>
+            <clipPath id="screen6-mask-mob" clipPathUnits="objectBoundingBox">
+              {[0, 0.2, 0.4, 0.6, 0.8].map((x, i) => (
+                <rect
+                  key={i}
+                  className="strip6-mob"
+                  x={x}
+                  y="0"
+                  width="0.2"
+                  height="0"
+                />
+              ))}
+            </clipPath>
+            <clipPath id="screen4-mask-desk" clipPathUnits="objectBoundingBox">
+              {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((x, i) => (
+                <rect
+                  key={i}
+                  className="strip4-desk"
+                  x={x}
+                  y="0"
+                  width="0.1"
+                  height="0"
+                />
+              ))}
+            </clipPath>
+            <clipPath id="screen5-mask-desk" clipPathUnits="objectBoundingBox">
+              {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((x, i) => (
+                <rect
+                  key={i}
+                  className="strip5-desk"
+                  x={x}
+                  y="1"
+                  width="0.1"
+                  height="0"
+                />
+              ))}
+            </clipPath>
+            <clipPath id="screen6-mask-desk" clipPathUnits="objectBoundingBox">
+              {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((x, i) => (
+                <rect
+                  key={i}
+                  className="strip6-desk"
+                  x={x}
+                  y="0"
+                  width="0.1"
+                  height="0"
+                />
+              ))}
+            </clipPath>
+          </defs>
+        </svg>
+
+        {/* Floating Arrow Button - disabled class ekath add karala thiyenawa visual indication ekakata */}
+        {isScreenOneDone && currentScreen < 7 && (
+          <button
+            className={`next-screen-btn ${!isVoiceDone ? "disabled" : ""}`}
+            onClick={handleNextScreen}
+            aria-label="Next Screen"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        )}
+
         {isScreenOneDone && (
           <div
             style={{
@@ -454,7 +552,7 @@ export default function Home() {
                 key={i}
                 className="falling-leaf"
                 src={`/img/common/bg-leave-${(i % 2) + 1}.png`}
-                alt="Falling leaf petal"
+                alt="Falling leaf"
                 style={{
                   position: "absolute",
                   width: isDesktopView ? "35px" : "25px",
