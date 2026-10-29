@@ -44,10 +44,12 @@ export default function Home() {
   const { contextSafe } = useGSAP({ scope: containerRef });
 
   useEffect(() => {
-    // BGM eka witharak methana thiyanawa, loop wenna denawa
+    // BGM eka methana initialize karanawa
     bgAudioRef.current = new Audio("/audio/bgm.mp3");
     bgAudioRef.current.loop = true;
     bgAudioRef.current.volume = 0.4;
+    // iPhone walata podi support ekak widihata preload danna
+    bgAudioRef.current.preload = "auto";
 
     const imageUrls = [
       "/img/1/left.webp",
@@ -61,7 +63,8 @@ export default function Home() {
     ];
 
     let loadedCount = 0;
-    const totalAssets = imageUrls.length + 1;
+    // Audio eka wait list eken ain kara, eka nisa image length eka witharak gannawa
+    const totalAssets = imageUrls.length;
 
     const assetLoader = () => {
       loadedCount++;
@@ -74,13 +77,8 @@ export default function Home() {
       const img = new Image();
       img.src = url;
       img.onload = assetLoader;
-      img.onerror = assetLoader;
+      img.onerror = assetLoader; // Error awath stuck wenne nathi wenna
     });
-
-    if (bgAudioRef.current) {
-      bgAudioRef.current.oncanplaythrough = assetLoader;
-      bgAudioRef.current.onerror = assetLoader;
-    }
   }, []);
 
   useEffect(() => {
@@ -101,6 +99,7 @@ export default function Home() {
     if (isAnimating.current) return;
     isAnimating.current = true;
 
+    // User interaction ekedi (flower eka click karaddi) music eka play wenawa
     if (bgAudioRef.current) {
       bgAudioRef.current
         .play()
@@ -395,7 +394,7 @@ export default function Home() {
           height="0"
           style={{ position: "absolute", pointerEvents: "none" }}
         >
-          {/* Defs removed for brevity in this response, but keep your clipPaths here! */}
+          {/* ඔයාගේ Clip paths (defs) ටික මෙතන තියන්න! */}
         </svg>
 
         {isScreenOneDone && currentScreen < 7 && (
