@@ -179,7 +179,7 @@ export default function Home() {
 
     // Screen 2 -> 3
     if (screenNum === 2) {
-      const targetScale = isDesktop ? 100 : 35;
+      const targetScale = isDesktop ? 90 : 25;
       const tl = gsap.timeline({
         onComplete: () => {
           isAnimating.current = false;
@@ -195,6 +195,7 @@ export default function Home() {
           rotation: "+=180",
           scale: targetScale,
           force3D: true,
+          z: 0.1,
           duration: 1.5,
           ease: "power2.inOut",
         },

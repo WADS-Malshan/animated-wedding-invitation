@@ -2,6 +2,39 @@
 @use "../../utils/functions" as *;
 @use "../../config" as *;
 
+/* --- Aluth Animations Keyframes --- */
+@keyframes pulseButton {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      inset 0 0 15px rgba(255, 255, 255, 0.6),
+      inset 0 0 30px rgba(139, 90, 25, 0.8),
+      0 15px 35px rgba(0, 0, 0, 0.5),
+      0 5px 15px rgba(212, 175, 55, 0.5);
+  }
+  100% {
+    transform: scale(1.08);
+    box-shadow:
+      inset 0 0 25px rgba(255, 255, 255, 0.8),
+      inset 0 0 40px rgba(139, 90, 25, 0.9),
+      0 20px 45px rgba(0, 0, 0, 0.7),
+      0 10px 25px rgba(212, 175, 55, 0.8);
+  }
+}
+
+@keyframes shineSweep {
+  0% {
+    left: -150%;
+  }
+  20% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+/* ---------------------------------- */
+
 .screenOne {
   position: absolute;
   top: 0;
@@ -82,6 +115,9 @@
   transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
 
+  /* Pulse animation eka methanata add kala */
+  animation: pulseButton 1.5s infinite alternate ease-in-out;
+
   &::before {
     content: "";
     position: absolute;
@@ -91,8 +127,29 @@
     z-index: 1;
   }
 
+  /* Akunak yanawa wage shine effect eka methanata add kala */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    z-index: 3;
+    animation: shineSweep 3.5s infinite;
+  }
+
   &:hover {
-    transform: scale(1.08);
+    /* Hover karaddi animation pause wela loku wenawa */
+    animation-play-state: paused;
+    transform: scale(1.12);
   }
 
   @include tablet-landscape {
