@@ -130,9 +130,8 @@ export default function ScreenTwo({
         <div className="textContent">
           <p className="topSmallText">{splitText("Some of the most")}</p>
           <div className="scriptWrapper">
-            <h2 className="scriptText">
-              {splitText("Beautiful Stories Begin")}
-            </h2>
+            <h2 className="scriptText">{splitText("Beautiful Stories")}</h2>
+            <h2 className="scriptText">{splitText("Begin")}</h2>
           </div>
           <p className="bottomSmallText">
             {splitText("when no one is quite")}

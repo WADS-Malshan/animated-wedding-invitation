@@ -108,7 +108,7 @@ export default function Home() {
 
     const isDesktop = window.innerWidth >= 992;
     const targetX = isDesktop ? "-2vw" : "-10vw";
-    const targetY = isDesktop ? "-3vh" : "0vh";
+    const targetY = isDesktop ? "23vh" : "26vh";
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -549,9 +549,9 @@ export default function Home() {
         <div
           style={{
             position: "absolute",
-            top: "50%",
+            top: "20%",
             left: "50%",
-            transform: "translate(-50%, -50%)",
+            transform: "translate(-50%, -20%)",
             width: "90px",
             height: "90px",
             zIndex: 50,

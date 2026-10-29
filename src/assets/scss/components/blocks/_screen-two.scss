@@ -14,6 +14,7 @@
   align-items: center;
   z-index: 5; // ScreenOne ekata wada adu wenna oni
   /* Background */
+  filter: blur(2px);
   .backgroundLayer {
     position: absolute;
     top: 0;

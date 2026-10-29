@@ -9,7 +9,6 @@ interface ScreenOneProps {
 
 export default function ScreenOne({ onAnimateFlower }: ScreenOneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
   const leftFlowersRef = useRef<HTMLPictureElement>(null);
   const rightFlowersRef = useRef<HTMLPictureElement>(null);
   const envelopeRef = useRef<HTMLButtonElement>(null);
@@ -19,21 +18,26 @@ export default function ScreenOne({ onAnimateFlower }: ScreenOneProps) {
   const handleOpen = contextSafe(() => {
     const tl = gsap.timeline();
 
+    // Button eka click karaddima (0 kiyana welawema) ScreenTwo eke blur eka ain wenna patan gannawa
+    const screenTwo = document.querySelector(".screenTwo");
+    if (screenTwo) {
+      tl.to(
+        screenTwo,
+        {
+          filter: "blur(0px)",
+          duration: 1.5,
+          ease: "power3.inOut",
+        },
+        0, // 0 kiyanne animation eka start wena thanama
+      );
+    }
+
     tl.to(
       envelopeRef.current,
       {
         scale: 0,
         opacity: 0,
         duration: 0.3,
-      },
-      0,
-    );
-
-    tl.to(
-      bgRef.current,
-      {
-        opacity: 0,
-        duration: 0.8,
       },
       0,
     );
@@ -76,26 +80,24 @@ export default function ScreenOne({ onAnimateFlower }: ScreenOneProps) {
       ref={containerRef}
       style={{ width: "100%", height: "100%", position: "relative" }}
     >
-      <div className="backgroundLayer" ref={bgRef}></div>
+      <div className="backgroundLayer"></div>
 
       <picture ref={leftFlowersRef} className="leftFlowers">
         <source media="(min-width: 992px)" srcSet="/img/1/dt-left.webp" />
-        {/* fetchPriority ekathu kara */}
         <img src="/img/1/left.webp" alt="Left Flowers" fetchPriority="high" />
       </picture>
 
       <picture ref={rightFlowersRef} className="rightFlowers">
         <source media="(min-width: 992px)" srcSet="/img/1/dt-right.webp" />
-        {/* fetchPriority ekathu kara */}
         <img src="/img/1/right.webp" alt="Right Flowers" fetchPriority="high" />
       </picture>
 
       <div
         style={{
           position: "absolute",
-          top: "50%",
+          top: "20%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%, -20%)",
           zIndex: 20,
         }}
       >
