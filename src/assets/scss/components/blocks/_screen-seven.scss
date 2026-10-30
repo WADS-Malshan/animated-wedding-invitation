@@ -3,12 +3,13 @@
 @use "../../config" as *;
 
 .screenSeven {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  width: 100dvw; /* අලුතෙන් දැම්මා */
+  width: 100dvw;
   height: 100vh;
+  height: -webkit-fill-available;
   height: 100dvh;
   overflow: hidden;
   display: flex;
@@ -20,10 +21,10 @@
 }
 
 .backgroundLayer {
-  position: absolute;
-  inset: 0; /* <-- අර යටින් එන gap එක නැති කරන්න මේක දැම්මා (top, left, right, bottom ඔක්කොම 0 වෙනවා) */
+  position: fixed;
+  inset: 0;
   width: 100%;
-  height: 100%;
+  height: 110vh;
   z-index: 1;
 
   img {
