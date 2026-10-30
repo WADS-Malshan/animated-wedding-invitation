@@ -146,11 +146,15 @@
   margin: 12px 0;
   @include textStyle(
     $primary-font-family,
-    17px,
-    17px,
+    13.5px,
+    13.5px,
     /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
     #252323
   );
+  @include tablet-landscape {
+    font-size: pxToRem(17px);
+    line-height: pxToRem(17px);
+  }
 }
 
 .celebrateText {
