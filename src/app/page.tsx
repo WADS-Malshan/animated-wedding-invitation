@@ -26,6 +26,9 @@ export default function Home() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [isScreenOneDone, setIsScreenOneDone] = useState(false);
 
+  // Audio mute/unmute state එක
+  const [isMuted, setIsMuted] = useState(false);
+
   // Voice state eka
   const [isVoiceDone, setIsVoiceDone] = useState(false);
 
@@ -63,7 +66,6 @@ export default function Home() {
     ];
 
     let loadedCount = 0;
-    // Audio eka wait list eken ain kara, eka nisa image length eka witharak gannawa
     const totalAssets = imageUrls.length;
 
     const assetLoader = () => {
@@ -77,7 +79,7 @@ export default function Home() {
       const img = new Image();
       img.src = url;
       img.onload = assetLoader;
-      img.onerror = assetLoader; // Error awath stuck wenne nathi wenna
+      img.onerror = assetLoader;
     });
   }, []);
 
@@ -94,6 +96,14 @@ export default function Home() {
       document.body.style.overflow = "auto";
     };
   }, []);
+
+  // Audio Toggle (Mute / Unmute) Function එක
+  const toggleAudio = () => {
+    if (bgAudioRef.current) {
+      bgAudioRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
 
   const handleFlowerAnimation = contextSafe(() => {
     if (isAnimating.current) return;
@@ -115,7 +125,7 @@ export default function Home() {
         setIsScreenOneDone(true);
         setCurrentScreen(2);
         currentScreenRef.current = 2;
-        setIsVoiceDone(false); // Screen 2 start weddi button eka lock karanawa
+        setIsVoiceDone(false);
         isAnimating.current = false;
       },
     });
@@ -169,11 +179,10 @@ export default function Home() {
   const handleNextScreen = contextSafe(() => {
     const screenNum = currentScreenRef.current;
 
-    // Voice eka iwara nathnam button click eka wada karanne na
     if (!isVoiceDone || isAnimating.current || screenNum >= 7) return;
 
     isAnimating.current = true;
-    setIsVoiceDone(false); // Eelanga screen ekata yaddi aith lock karanawa
+    setIsVoiceDone(false);
 
     const isDesktop = window.innerWidth >= 992;
 
@@ -374,6 +383,33 @@ export default function Home() {
           animation: none;
           box-shadow: none;
         }
+
+        /* Music Toggle Button Styles */
+        .audio-toggle-btn {
+          position: fixed;
+          top: 15px;
+          right: 15px;
+          width: 55px;
+          height: 55px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(212, 175, 55, 0.4);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #8b5a19;
+          cursor: pointer;
+          z-index: 100;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+        }
+        .audio-toggle-btn:hover {
+          background: rgba(255, 255, 255, 0.4);
+          transform: scale(1.08);
+        }
+
         @keyframes bounceArrow {
           0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
           40% { transform: translateX(-50%) translateY(-8px); }
@@ -395,8 +431,51 @@ export default function Home() {
           height="0"
           style={{ position: "absolute", pointerEvents: "none" }}
         >
-          {/* ඔයාගේ Clip paths (defs) ටික මෙතන තියන්න! */}
+          {/* Clip paths */}
         </svg>
+
+        {/* Music Toggle Button (Screen 2 එකේ සිට පෙන්නුම් කරයි) */}
+        {isScreenOneDone && (
+          <button
+            className="audio-toggle-btn"
+            onClick={toggleAudio}
+            aria-label="Toggle Audio"
+          >
+            {isMuted ? (
+              /* Mute Icon */
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+                <path d="M9 9v6a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
+                <path d="M17 16.95A7 7 0 0 0 21 12h-2a5 5 0 0 1-1.21 3.19"></path>
+              </svg>
+            ) : (
+              /* Play/Sound Icon */
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 18V5l12-2v13"></path>
+                <circle cx="6" cy="18" r="3"></circle>
+                <circle cx="18" cy="16" r="3"></circle>
+              </svg>
+            )}
+          </button>
+        )}
 
         {isScreenOneDone && currentScreen < 7 && (
           <button
@@ -550,9 +629,10 @@ export default function Home() {
         <div
           style={{
             position: "absolute",
-            top: "20%",
+            top: "20%" /* Malli patha value 20% ki marcham */,
             left: "50%",
-            transform: "translate(-50%, -20%)",
+            transform:
+              "translate(-50%, -20%)" /* Malli patha value ki marcham */,
             width: "90px",
             height: "90px",
             zIndex: 50,

@@ -126,12 +126,18 @@ function ScreenSevenContent() {
           </p>
         </div>
 
+        <p className="locationText first">
+          PORUWA CEREMONY
+          <span className="poruwaText">
+            5:50 PM <br /> Jetty Green, Waters Edge
+          </span>
+        </p>
+
         <p className="locationText">
-          AT FIFTYKAY ORCHIDS,
-          <br />
-          WATERS EDGE COLOMBO
-          <br />
-          <span className="poruwaText">(PORUWA CEREMONY AT 5:50 PM)</span>
+          WEDDING RECEPTION
+          <span className="poruwaText">
+            Fiftykay Orchids, Waters Edge, Colombo
+          </span>
         </p>
 
         <button className="rsvpButton" onClick={() => setIsModalOpen(true)}>
