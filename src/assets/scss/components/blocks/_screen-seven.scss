@@ -7,6 +7,7 @@
   top: 0;
   left: 0;
   width: 100vw;
+  width: 100dvw; /* අලුතෙන් දැම්මා */
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -20,8 +21,7 @@
 
 .backgroundLayer {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0; /* <-- අර යටින් එන gap එක නැති කරන්න මේක දැම්මා (top, left, right, bottom ඔක්කොම 0 වෙනවා) */
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -134,24 +134,12 @@
 .requestText {
   text-transform: uppercase;
   font-weight: bold;
-  @include textStyle(
-    $primary-font-family,
-    13px,
-    1.5,
-    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
-    #252323
-  );
+  @include textStyle($primary-font-family, 13px, 1.5, 0, #252323);
 }
 
 .invite-name {
   margin: 12px 0;
-  @include textStyle(
-    $primary-font-family,
-    13.5px,
-    13.5px,
-    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
-    #252323
-  );
+  @include textStyle($primary-font-family, 13.5px, 13.5px, 0, #252323);
   @include tablet-landscape {
     font-size: pxToRem(17px);
     line-height: pxToRem(17px);
@@ -186,13 +174,7 @@
 }
 
 .dateText {
-  @include textStyle(
-    $primary-font-family,
-    13px,
-    1.5,
-    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
-    #252323
-  );
+  @include textStyle($primary-font-family, 13px, 1.5, 0, #252323);
   margin: 0;
 }
 
@@ -210,13 +192,7 @@
 .locationText {
   text-transform: uppercase;
   font-weight: bold;
-  @include textStyle(
-    $primary-font-family,
-    13px,
-    1.5,
-    /* Line height eka poddak wadi kara line breaks clear wenna */ 0,
-    #252323
-  );
+  @include textStyle($primary-font-family, 13px, 1.5, 0, #252323);
   &.first {
     margin-bottom: 10px;
   }
@@ -267,12 +243,11 @@
 /* --- RSVP Modal Styles --- */
 .modalOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  background-color: rgba(0, 0, 0, 0.6); // Kalu wela focus eka form ekata enawa
+  background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
@@ -283,7 +258,7 @@
 
 .modalContent {
   background-color: #f7f1e6;
-  padding: 30px 20px; /* <-- Padding eka wadi kara */
+  padding: 30px 20px;
   border-radius: 15px;
   width: 90%;
   max-width: 400px;
@@ -292,7 +267,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(171, 87, 62, 0.2);
   animation: slideUp 0.4s ease;
-  box-sizing: border-box; /* <-- Meka aniwaren danna */
+  box-sizing: border-box;
 
   @include tablet-landscape {
     padding: 50px 40px;
