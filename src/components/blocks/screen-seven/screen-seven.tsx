@@ -194,17 +194,6 @@ function ScreenSevenContent() {
                     <option value="no">Regretfully Decline</option>
                   </select>
 
-                  <input
-                    type="number"
-                    name="guests"
-                    value={formData.guests}
-                    onChange={handleChange}
-                    placeholder="Number of Guests"
-                    min="1"
-                    max="5"
-                    required={formData.attendance === "yes"}
-                  />
-
                   <button
                     type="submit"
                     className="submitBtn"
